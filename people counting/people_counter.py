@@ -79,6 +79,7 @@ trackableObjects = {}
 totalFrames = 0
 totalDown = 0
 totalUp = 0
+people_inside = 0
 
 # start the frames per second throughput estimator
 fps = FPS().start()
@@ -222,14 +223,16 @@ while True:
 				# is moving up) AND the centroid is above the center
 				# line, count the object
 				if direction < 0 and centroid[1] < H // 2:
-					totalUp += 1
+					#totalUp += 1
+					people_inside -= 1 
 					to.counted = True
 
 				# if the direction is positive (indicating the object
 				# is moving down) AND the centroid is below the
 				# center line, count the object
 				elif direction > 0 and centroid[1] > H // 2:
-					totalDown += 1
+					#totalDown += 1
+					people_inside += 1
 					to.counted = True
 
 		# store the trackable object in our dictionary
@@ -245,8 +248,9 @@ while True:
 	# construct a tuple of information we will be displaying on the
 	# frame
 	info = [
-		("Up", totalUp),
-		("Down", totalDown),
+		#("Up", totalUp),
+		#("Down", totalDown),
+		("People inside", people_inside),
 		("Status", status),
 	]
 
