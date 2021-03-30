@@ -1,0 +1,8 @@
+face/yolov3_testing.cfg
+face/yolov3_training_last.weights
+social distancing/social-distancing-detector-master/yolo-coco/yolov3.weights
+social distancing/social-distancing-detector-master/demo.mp4
+social distancing/social-distancing-detector-master/demo_output.avi
+.social distancing/social-distancing-detector-master/pedestrians.mp4
+people counting/output
+people counting/videos
