@@ -1,2 +1,2 @@
 # COVID-19
-Includes models such as crowd counting, social distancing, mask detection and posture detection modules
+System to implement face mask detection, social distancing detector and people counting models.
