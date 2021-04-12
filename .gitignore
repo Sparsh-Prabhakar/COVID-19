@@ -6,3 +6,6 @@ social distancing/social-distancing-detector-master/demo_output.avi
 .social distancing/social-distancing-detector-master/pedestrians.mp4
 people counting/output
 people counting/videos
+backendApi/backendApi/__pycache__
+backendApi/cleanse19/__pycache__
+backendApi/cleanse19/migrations/__pycache__
