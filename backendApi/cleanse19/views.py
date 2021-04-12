@@ -1,18 +1,16 @@
-from django.shortcuts import render
-from django.http import JsonResponse, HttpResponse
-from django.http.response import StreamingHttpResponse
-from django.views.decorators.http import require_http_methods
-from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
-
-from rest_framework.response import Response
+from django.http import HttpResponse, JsonResponse
+from django.http.response import StreamingHttpResponse
+from django.shortcuts import redirect, render
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
 from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from .camera import *
 from .models import *
 from .serializers import *
-
-from .camera import *
 
 # Create your views here.
 
@@ -65,13 +63,33 @@ class IPAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 def index(request):
-    return render(request, 'index.html')
+    record = Recording.objects.filter(user= 1).filter(name='face_mask')
+    return render(request, 'index.html', {'record': record[0]})
 
 def gen(camera, request):
     while True:
         frame = camera.get_frame(request)
         yield (b'--frame\r\n'
 				b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
-                
+
+def destroy(camera):
+    camera.delete()
+
+@csrf_exempt                
 def face_mask_detection(request):
-        return StreamingHttpResponse(gen(FaceMaskDetection(), request), content_type='multipart/x-mixed-replace; boundary=frame')
+    return StreamingHttpResponse(gen(FaceMaskDetection(), request), content_type='multipart/x-mixed-replace; boundary=frame')
+    
+
+@csrf_exempt
+def stop_face_mask_detection(request):
+    record = Recording.objects.filter(name= 'face_mask').update(is_recording= False)
+    destroy(FaceMaskDetection())
+    return redirect('/')
+
+def crowd_counting(request):
+    return StreamingHttpResponse(gen(CrowdCounting(), request), content_type='multipart/x-mixed-replace; boundary=frame')
+
+@csrf_exempt
+def startRecordingFaceMask(request):
+    Recording.objects.filter(name= 'face_mask').update(is_recording= True)
+    return redirect('/')

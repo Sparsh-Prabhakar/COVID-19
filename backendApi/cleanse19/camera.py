@@ -1,15 +1,19 @@
-import cv2, os, urllib.request
+import os
+import urllib.request
+
+import cv2
 import numpy as np
-from django.contrib.auth.models import User as authUser
 from django.conf import settings
+from django.contrib.auth.models import User as authUser
 
 from .models import *
+
 
 class FaceMaskDetection(object):
     def __init__(self):
         self.url = 'http://192.168.1.101:8080/shot.jpg'
 
-    def __del__(self):
+    def delete(self):
         cv2.destroyAllWindows()
 
     def get_frame(self, request):
