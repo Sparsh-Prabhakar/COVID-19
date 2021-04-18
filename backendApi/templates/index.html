@@ -4,7 +4,7 @@
     </head>
     <body>
         <h1>Face Mask Detection and Crowd Counting</h1>
-        {% if record.is_recording == 1 %}
+        {% if record.0.is_recording == 1 %}
             <img src="{% url 'face_mask_detection' %}" id="image">
         {% endif %}
 
@@ -15,6 +15,9 @@
         <form method="POST" action="/stopFaceMaskDetection/">
             <input type="submit" value="Stop Recording">
         </form>
+        <a href="{% url 'crowd_counting_view' %}">Crowd Counting</a>
+        <br>
+        <a href="{% url 'social_distancing_view' %}">Social Distancing</a>
     </body>
 
     <script>
