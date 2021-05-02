@@ -3,7 +3,7 @@
         <title>Video Live Stream</title>
     </head>
     <body>
-        <h1>Face Mask Detection and Crowd Counting</h1>
+        <h1>Face Mask Detection</h1>
         {% if record.0.is_recording == 1 %}
             <img src="{% url 'face_mask_detection' %}" id="image">
         {% endif %}
@@ -19,12 +19,4 @@
         <br>
         <a href="{% url 'social_distancing_view' %}">Social Distancing</a>
     </body>
-
-    <script>
-        // window.onload = function() {
-        //     document.forms['form'].submit();
-        // }
-
-        // document.getElementById("image").style.display = 'none';
-    </script>
 </html>

@@ -18,6 +18,11 @@ class Crowd_counting(models.Model):
     people_count = models.IntegerField()
     timestamp =  models.DateTimeField(auto_now_add=True)
 
+class Social_distancing(models.Model):
+    user = models.ForeignKey(authUser, on_delete=models.CASCADE)
+    violations = models.IntegerField()
+    timestamp = models.DateTimeField(auto_now_add= True)
+
 class Recording(models.Model):
     user = models.ForeignKey(authUser, on_delete= models.CASCADE)
     name = models.CharField(max_length=100)

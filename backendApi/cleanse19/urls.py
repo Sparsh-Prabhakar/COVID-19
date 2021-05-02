@@ -15,4 +15,7 @@ urlpatterns = [
     path('stopRecordingCrowdCounting/', views.stopRecordingCrowdCounting, name= 'stop_recording_crowd_counting'),
     path('crowdCountingView/', views.crowdCountingView, name= 'crowd_counting_view'),
     path('socialDistancingView/', views.socialDistancingView, name= 'social_distancing_view'),
+    path('socialDistancing', views.social_distancing, name= 'social_distancing'),
+    path('startRecordingSocialDistancing', views.startRecordingSocialDistancing, name='start_recording_social_distancing'),
+    path('stopRecordingSocialDistancing', views.stopRecordingSocialDistancing, name='stop_recording_social_distancing'),
 ]

@@ -14,6 +14,7 @@ import dlib
 from .centroidtracker import *
 from .trackableobject import *
 from .models import *
+from .detection import *
 
 
 class FaceMaskDetection(object):
@@ -25,10 +26,8 @@ class FaceMaskDetection(object):
 
     def get_frame(self, request):
         imgResp = urllib.request.urlopen(self.url)
-        print(imgResp)
         imgNp = np.array(bytearray(imgResp.read()), dtype=np.uint8)
         img = cv2.imdecode(imgNp, 1)
-        print(img)
 
         classes = []
         with open("/home/sparsh/COVID-19/face/classes.txt", "r") as f:
@@ -223,6 +222,70 @@ class CrowdCounting(object):
             crowd.save()
 
              
+        resize = cv2.resize(frame, (640, 480), interpolation= cv2.INTER_LINEAR)
+        ret, jpeg = cv2.imencode('.jpg', frame)
+
+        return jpeg.tobytes()
+
+class SocialDistancing(object):
+    def __init__(self):
+        self.url = 'http://192.168.1.101:8080/shot.jpg'
+
+    def delete(self):
+        cv2.destroyAllWindows()
+
+    def get_frame(self, request):
+        imgResp = urllib.request.urlopen(self.url)
+        imgNp = np.array(bytearray(imgResp.read()), dtype= np.uint8)
+        frame = cv2.imdecode(imgNp, 1)
+
+        labels = ['person', 'bicycle', 'car', 'motorbike', 'aeroplane', 'bus', 'train', 'truck', 'boat', 'traffic light', 'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow', 'elephant', 'bear', 'zebra', 'giraffe', 'backpack', 'umbrella', 'handbag', 'tie', 'suitcase', 'frisbee', 'skis', 'snowboard', 'sports ball', 'kite', 'baseball bat', 'baseball glove', 'skateboard', 'surfboard', 'tennis racket', 'bottle', 'wine glass', 'cup', 'fork', 'knife', 'spoon', 'bowl', 'banana', 'apple', 'sandwich', 'orange', 'broccoli', 'carrot', 'hot dog', 'pizza', 'donut', 'cake', 'chair', 'sofa', 'pottedplant', 'bed', 'diningtable', 'toilet', 'tvmonitor', 'laptop', 'mouse', 'remote', 'keyboard', 'cell phone', 'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors', 'teddy bear', 'hair drier', 'toothbrush']
+
+        net = cv2.dnn.readNetFromDarknet('/home/sparsh/COVID-19/social distancing/social-distancing-detector-master/yolo-coco/yolov3.cfg', '/home/sparsh/COVID-19/social distancing/social-distancing-detector-master/yolo-coco/yolov3.weights')
+
+        ln = net.getLayerNames()
+        ln = [ln[i[0] - 1] for i in net.getUnconnectedOutLayers()]
+
+        frame = imutils.resize(frame, width=640)
+        results = detect_people(frame, net, ln, personIdx=labels[0])    
+
+        violate = set()
+
+        if len(results) >= 2:
+            centroids = np.array([r[2] for r in results])
+            D = dist.cdist(centroids, centroids, metric="euclidean")
+
+            for i in range(0, D.shape[0]):
+                for j in range(i+1, D.shape[1]):
+                    if D[i, j] < 50:
+                        violate.add(i)
+                        violate.add(j)
+
+        for (i, (prob, bbox, centroid)) in enumerate(results):
+            (startX, startY, endX, endY) = bbox
+            (cX, cY) = centroid
+            color = (0, 255, 0)
+
+            if i in violate:
+                color = (0, 0, 255)
+        
+            cv2.rectangle(frame, (startX, startY), (endX, endY), color, 2)
+            cv2.circle(frame, (cX, cY), 5, color, 1)
+
+        text = "Social Distancing Violations: {}".format(len(violate))
+        cv2.putText(frame, text, (10, frame.shape[0] - 25), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 3)
+
+        if Social_distancing.objects.filter(user= 1).exists():
+            Social_distancing.objects.filter(user= 1).update(violations= len(violate))
+        else:
+            user = authUser.objects.get(id= 1)       
+            crowd = Social_distancing.objects.create(
+                user= user,
+                violations= len(violate)
+            )                
+            crowd.save()
+
+
         resize = cv2.resize(frame, (640, 480), interpolation= cv2.INTER_LINEAR)
         ret, jpeg = cv2.imencode('.jpg', frame)
 

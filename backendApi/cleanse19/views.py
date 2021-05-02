@@ -1,3 +1,4 @@
+from django.contrib.auth import logout
 from django.core import serializers
 from django.http import HttpResponse, JsonResponse
 from django.http.response import StreamingHttpResponse
@@ -118,3 +119,20 @@ def crowdCountingView(request):
 def socialDistancingView(request):
     user = user_data(request)
     return render(request, 'social.html', user)
+
+def social_distancing(request):
+    return StreamingHttpResponse(gen(SocialDistancing(), request), content_type='multipart/x-mixed-replace; boundary=frame')
+
+@csrf_exempt
+def startRecordingSocialDistancing(request):
+    Recording.objects.filter(name= 'social_distancing').update(is_recording= True)
+    return redirect('/socialDistancingView/')
+
+@csrf_exempt
+def stopRecordingSocialDistancing(request):
+    Recording.objects.filter(name= 'social_distancing').update(is_recording= False)
+    return redirect('/socialDistancingView/')
+
+def logout_view(request):
+    logout(request)
+    return redirect('/')
