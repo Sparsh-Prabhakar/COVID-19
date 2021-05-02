@@ -62,9 +62,15 @@ class IPAPIView(APIView):
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+def user_data(request):
+    user = dict()
+    record = Recording.objects.filter(user= 1)
+    user.update({'record': record})
+    return user
+
 def index(request):
-    record = Recording.objects.filter(user= 1).filter(name='face_mask')
-    return render(request, 'index.html', {'record': record[0]})
+    user = user_data(request)
+    return render(request, 'index.html', user)
 
 def gen(camera, request):
     while True:
@@ -86,10 +92,29 @@ def stop_face_mask_detection(request):
     destroy(FaceMaskDetection())
     return redirect('/')
 
-def crowd_counting(request):
-    return StreamingHttpResponse(gen(CrowdCounting(), request), content_type='multipart/x-mixed-replace; boundary=frame')
-
 @csrf_exempt
 def startRecordingFaceMask(request):
     Recording.objects.filter(name= 'face_mask').update(is_recording= True)
     return redirect('/')
+
+def crowd_counting(request):
+    return StreamingHttpResponse(gen(CrowdCounting(), request), content_type='multipart/x-mixed-replace; boundary=frame')
+
+@csrf_exempt
+def startRecordingCrowdCounting(request):
+    Recording.objects.filter(name= 'crowd_counting').update(is_recording= True)
+    return redirect('/crowdCountingView/')
+
+@csrf_exempt
+def stopRecordingCrowdCounting(request):
+    Recording.objects.filter(name= 'crowd_counting').update(is_recording= False)
+    destroy(CrowdCounting())
+    return redirect('/crowdCountingView/')
+
+def crowdCountingView(request):
+    user = user_data(request)
+    return render(request, 'crowd.html', user)
+
+def socialDistancingView(request):
+    user = user_data(request)
+    return render(request, 'social.html', user)
