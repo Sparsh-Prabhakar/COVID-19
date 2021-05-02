@@ -1,5 +1,6 @@
 absl-py==0.11.0
 argon2-cffi==20.1.0
+asgiref==3.3.1
 astroid==2.4.2
 astunparse==1.6.3
 async-generator==1.10
@@ -17,6 +18,8 @@ colorama==0.4.3
 cycler==0.10.0
 decorator==4.4.2
 defusedxml==0.6.0
+Django==3.1.7
+djangorestframework==3.12.2
 dlib==19.21.0
 entrypoints==0.3
 gast==0.3.3
@@ -50,6 +53,7 @@ MarkupSafe==1.1.1
 matplotlib==3.3.2
 mccabe==0.6.1
 mistune==0.8.4
+mysqlclient==2.0.3
 nbclient==0.5.1
 nbconvert==6.0.7
 nbformat==5.0.8
@@ -95,6 +99,7 @@ scipy==1.4.1
 Send2Trash==1.5.0
 six==1.15.0
 sklearn==0.0
+sqlparse==0.4.1
 tensorboard==2.3.0
 tensorboard-plugin-wit==1.7.0
 tensorflow==2.3.1
