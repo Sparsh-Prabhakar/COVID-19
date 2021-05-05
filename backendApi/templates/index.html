@@ -12,7 +12,7 @@
             <input type="submit" value="Start Recording">
         </form>
 
-        <form method="POST" action="/stopRecordingFaceMaskDetection/">
+        <form method="POST" action="{% url 'stop_recording_face_mask' %}">
             <input type="submit" value="Stop Recording">
         </form>
         <a href="{% url 'crowd_counting_view' %}">Crowd Counting</a>

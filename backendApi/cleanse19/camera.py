@@ -15,6 +15,7 @@ from .centroidtracker import *
 from .trackableobject import *
 from .models import *
 from .detection import *
+from .config import *
 
 
 class FaceMaskDetection(object):
@@ -37,7 +38,7 @@ class FaceMaskDetection(object):
 
         font = cv2.FONT_HERSHEY_PLAIN
 
-        net = cv2.dnn.readNet('/home/sparsh/COVID-19/face/yolov3_training_last.weights', '/home/sparsh/COVID-19/face/yolov3_testing.cfg')
+        net = cv2.dnn.readNet(face_weights, face_cfg)
 
         blob = cv2.dnn.blobFromImage(img, 1/255, (416, 416), (0,0,0), swapRB=True, crop=False)
         net.setInput(blob)
@@ -122,7 +123,7 @@ class CrowdCounting(object):
         imgNp = np.array(bytearray(imgResp.read()), dtype= np.uint8)
         frame = cv2.imdecode(imgNp, 1)
 
-        net = cv2.dnn.readNetFromCaffe('/home/sparsh/COVID-19/people counting/mobilenet_ssd/MobileNetSSD_deploy.prototxt', '/home/sparsh/COVID-19/people counting/mobilenet_ssd/MobileNetSSD_deploy.caffemodel')
+        net = cv2.dnn.readNetFromCaffe(crowd_prototxt, crowd_caffemodel)
 
         W = None
         H = None
@@ -241,7 +242,7 @@ class SocialDistancing(object):
 
         labels = ['person', 'bicycle', 'car', 'motorbike', 'aeroplane', 'bus', 'train', 'truck', 'boat', 'traffic light', 'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow', 'elephant', 'bear', 'zebra', 'giraffe', 'backpack', 'umbrella', 'handbag', 'tie', 'suitcase', 'frisbee', 'skis', 'snowboard', 'sports ball', 'kite', 'baseball bat', 'baseball glove', 'skateboard', 'surfboard', 'tennis racket', 'bottle', 'wine glass', 'cup', 'fork', 'knife', 'spoon', 'bowl', 'banana', 'apple', 'sandwich', 'orange', 'broccoli', 'carrot', 'hot dog', 'pizza', 'donut', 'cake', 'chair', 'sofa', 'pottedplant', 'bed', 'diningtable', 'toilet', 'tvmonitor', 'laptop', 'mouse', 'remote', 'keyboard', 'cell phone', 'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors', 'teddy bear', 'hair drier', 'toothbrush']
 
-        net = cv2.dnn.readNetFromDarknet('/home/sparsh/COVID-19/social distancing/social-distancing-detector-master/yolo-coco/yolov3.cfg', '/home/sparsh/COVID-19/social distancing/social-distancing-detector-master/yolo-coco/yolov3.weights')
+        net = cv2.dnn.readNetFromDarknet(social_cfg, social_weights)
 
         ln = net.getLayerNames()
         ln = [ln[i[0] - 1] for i in net.getUnconnectedOutLayers()]

@@ -9,7 +9,7 @@ urlpatterns = [
     path('', views.index, name= 'index'),
     path('faceMaskDetection/', views.face_mask_detection, name='face_mask_detection'),
     path('crowdCounting/', views.crowd_counting, name= 'crowd_counting'),
-    path('stopRecordingFaceMaskDetection/', views.stop_face_mask_detection),
+    path('stopRecordingFaceMaskDetection/', views.stop_face_mask_detection, name='stop_recording_face_mask'),
     path('startRecordingFaceMask/', views.startRecordingFaceMask, name= 'start_recording_face_mask'),
     path('startRecordingCrowdCounting/', views.startRecordingCrowdCounting,name= 'start_recording_crowd_counting'),
     path('stopRecordingCrowdCounting/', views.stopRecordingCrowdCounting, name= 'stop_recording_crowd_counting'),
