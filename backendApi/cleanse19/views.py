@@ -69,9 +69,9 @@ def user_data(request):
     user.update({'record': record})
     return user
 
-def index(request):
+def home(request):
     user = user_data(request)
-    return render(request, 'index.html', user)
+    return render(request, 'home.html', user)
 
 def gen(camera, request):
     while True:
@@ -82,6 +82,10 @@ def gen(camera, request):
 def destroy(camera):
     camera.delete()
 
+def face_mask(request):
+    user = user_data(request)
+    return render(request, 'face.html', user)
+
 @csrf_exempt                
 def face_mask_detection(request):
     return StreamingHttpResponse(gen(FaceMaskDetection(), request), content_type='multipart/x-mixed-replace; boundary=frame')
@@ -91,12 +95,12 @@ def face_mask_detection(request):
 def stop_face_mask_detection(request):
     record = Recording.objects.filter(name= 'face_mask').update(is_recording= False)
     destroy(FaceMaskDetection())
-    return redirect('/')
+    return redirect('/faceMaskDetectionView/')
 
 @csrf_exempt
 def startRecordingFaceMask(request):
     Recording.objects.filter(name= 'face_mask').update(is_recording= True)
-    return redirect('/')
+    return redirect('/faceMaskDetectionView/')
 
 def crowd_counting(request):
     return StreamingHttpResponse(gen(CrowdCounting(), request), content_type='multipart/x-mixed-replace; boundary=frame')
@@ -136,3 +140,6 @@ def stopRecordingSocialDistancing(request):
 def logout_view(request):
     logout(request)
     return redirect('/')
+
+def landing(request):
+    return render(request, 'landing.html')

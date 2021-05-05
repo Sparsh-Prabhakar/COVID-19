@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+<a href="{% url 'face_mask_detection_view' %}">Face Mask Detection</a>
+<br>
+<a href="{% url 'crowd_counting_view' %}">Crowd Counting</a>
+<br>
+<a href="{% url 'social_distancing_view' %}">Social Distancing</a>
+{% endblock %}

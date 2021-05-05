@@ -1,22 +1,25 @@
-<html>
-    <head>
-        <title>Video Live Stream</title>
-    </head>
-    <body>
-        <h1>Social Distancing</h1>
-        {% if record.2.is_recording == 1 %}
-            <img src="{% url 'social_distancing' %}" id="image">
-        {% endif %}
+{% extends 'base.html' %}
+{% load static %}
 
-        <form method="POST" action="{% url 'start_recording_social_distancing' %}">
-            <input type="submit" value="Start Recording">
-        </form>
+{% block head%}
+<title>Video Live Stream</title>
+{% endblock %}
 
-        <form method="POST" action="{% url 'stop_recording_social_distancing' %}">
-            <input type="submit" value="Stop Recording">
-        </form>
-        <a href="{% url 'crowd_counting_view' %}">Crowd Counting</a>
-        <br>
-        <a href="{% url 'index' %}">Face Mask Detection</a>
-    </body>
-</html>
+{% block content %}
+    <h1>Social Distancing</h1>
+    {% if record.2.is_recording == 1 %}
+        <img src="{% url 'social_distancing' %}" id="image">
+    {% endif %}
+
+    <form method="POST" action="{% url 'start_recording_social_distancing' %}">
+        <input type="submit" value="Start Recording">
+    </form>
+
+    <form method="POST" action="{% url 'stop_recording_social_distancing' %}">
+        <input type="submit" value="Stop Recording">
+    </form>
+    <a href="{% url 'crowd_counting_view' %}">Crowd Counting</a>
+    <br>
+    <a href="{% url 'face_mask_detection_view' %}">Face Mask Detection</a>
+
+{% endblock %}

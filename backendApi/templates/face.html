@@ -1,8 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
 <html>
-    <head>
+    {% block head%}
         <title>Video Live Stream</title>
-    </head>
-    <body>
+    {% endblock %}
+    {% block content %}
         <h1>Face Mask Detection</h1>
         {% if record.0.is_recording == 1 %}
             <img src="{% url 'face_mask_detection' %}" id="image">
@@ -18,5 +20,5 @@
         <a href="{% url 'crowd_counting_view' %}">Crowd Counting</a>
         <br>
         <a href="{% url 'social_distancing_view' %}">Social Distancing</a>
-    </body>
+    {% endblock %}
 </html>
