@@ -20,7 +20,7 @@ from .config import *
 
 class FaceMaskDetection(object):
     def __init__(self):
-        self.url = 'http://192.168.1.101:8080/shot.jpg'
+        self.url = 'http://192.168.193.61:8080/shot.jpg'
 
     def delete(self):
         cv2.destroyAllWindows()
@@ -31,7 +31,7 @@ class FaceMaskDetection(object):
         img = cv2.imdecode(imgNp, 1)
 
         classes = []
-        with open("/home/sparsh/COVID-19/face/classes.txt", "r") as f:
+        with open(face_classes, "r") as f:
             classes = f.read().splitlines()
 
         height, width, _ = img.shape
@@ -106,7 +106,7 @@ class FaceMaskDetection(object):
     
 class CrowdCounting(object):
     def __init__(self):
-        self.url = 'http://192.168.1.101:8080/shot.jpg'
+        self.url = 'http://192.168.193.61:8080/shot.jpg'
 
     def delete(self):
         cv2.destroyAllWindows()
@@ -230,7 +230,7 @@ class CrowdCounting(object):
 
 class SocialDistancing(object):
     def __init__(self):
-        self.url = 'http://192.168.1.101:8080/shot.jpg'
+        self.url = 'http://192.168.193.61:8080/shot.jpg'
 
     def delete(self):
         cv2.destroyAllWindows()

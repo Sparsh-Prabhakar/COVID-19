@@ -6,6 +6,11 @@
     {% endblock %}
     {% block content %}
         <h1>Face Mask Detection</h1>
+        <form action="face_ip" method="POST">
+            Enter IP address: <input type="text" name="ipaddress" id="ipaddress"><br>
+            <input type="submit"><br>
+        </form>
+        <hr>
         {% if record.0.is_recording == 1 %}
             <img src="{% url 'face_mask_detection' %}" id="image">
         {% endif %}
@@ -17,8 +22,6 @@
         <form method="POST" action="{% url 'stop_recording_face_mask' %}">
             <input type="submit" value="Stop Recording">
         </form>
-        <a href="{% url 'crowd_counting_view' %}">Crowd Counting</a>
-        <br>
-        <a href="{% url 'social_distancing_view' %}">Social Distancing</a>
+        
     {% endblock %}
 </html>

@@ -7,19 +7,20 @@
 
 {% block content %}
 <h1>Crowd Counting</h1>
-    {% if record.1.is_recording == True %}
-        <img src="{% url 'crowd_counting' %}">
-    {% endif %}
+<form action="crowd_ip" method="POST">
+    Enter IP address: <input type="text" name="ipaddress" id="ipaddress"><br>
+    <input type="submit"><br>
+</form>
+<hr>
+{% if record.1.is_recording == True %}
+<img src="{% url 'crowd_counting' %}">
+{% endif %}
 
-    <form method="POST" action="{% url 'start_recording_crowd_counting' %}">
-        <input type="submit" value="Start Recording">
-    </form>
+<form method="POST" action="{% url 'start_recording_crowd_counting' %}">
+    <input type="submit" value="Start Recording">
+</form>
 
-    <form method="POST" action="{% url 'stop_recording_crowd_counting' %}">
-        <input type="submit" value="Stop Recording">
-    </form>
-
-    <a href="{% url 'face_mask_detection_view' %}">Face Mask</a>
-    <br>
-    <a href="{% url 'social_distancing_view' %}">Social Distancing</a>
+<form method="POST" action="{% url 'stop_recording_crowd_counting' %}">
+    <input type="submit" value="Stop Recording">
+</form>
 {% endblock %}
