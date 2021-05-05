@@ -10,3 +10,4 @@ backendApi/backendApi/__pycache__
 backendApi/cleanse19/__pycache__
 backendApi/cleanse19/migrations/__pycache__
 backendApi/static
+backendApi/cleanse19/config.py
