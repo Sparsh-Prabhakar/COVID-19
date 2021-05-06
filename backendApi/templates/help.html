@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head%}
+<title>Help</title>
+{% endblock %}
+
+{% block content %}
+    <h1>Help</h1><hr>
+    <form action="{% url 'send_email' %}" method="POST">
+        {% csrf_token %}
+        <!-- Email: <input type="text" name="email" id="email"><br> -->
+        Subject: <input type="text" name="subject" id="subject"><br>
+        Message: <input type="text" style="height: 200px; width: 400px;" name="message" id="message">
+        
+
+        <br>
+        <input type="submit" value="Send Mail">
+        <a href="{% url 'home' %}">Cancel</a>
+
+    </form>
+    
+
+{% endblock %}

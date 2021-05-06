@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head%}
+<title>Profile</title>
+{% endblock %}
+
+{% block content %}
+    <h1>Profile</h1><hr>
+    <form action="{% url 'profile_save' %}" method="POST">
+        {% csrf_token %}
+        Username: <input type="text" name="username" id="username" placeholder="{{ user.username }}"><br>
+        First Name: <input type="text" name="first_name" id="first_name" placeholder="{{ user.first_name }}"><br>
+        Last Name: <input type="text" name="last_name" id="last_name" placeholder="{{ user.last_name }}"><br>
+       
+        Email: <input type="text" name="email" id="email" placeholder="{{ user.email }}"><br>
+
+        <br>
+        <input type="submit" value="Save Changes">
+        <a href="{% url 'home' %}">Cancel</a>
+
+    </form>
+    <div>
+        <h3>
+            {% for message in messages %}  
+              {{message}}
+            {% endfor %}   
+        </h3>
+    </div>
+
+{% endblock %}

@@ -9,10 +9,15 @@ from django.views.decorators.http import require_http_methods
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.contrib.auth.models import User
+from django.contrib import messages
 
 from .camera import *
 from .models import *
 from .serializers import *
+
+from django.conf import settings
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -56,7 +61,6 @@ def user_data(request):
         social_ip = IP_address.objects.filter(user= request.user.id, name='social_distancing')
         user.update({'social_ip': social_ip })
 
-    print(face_ip[0])
     return user
 
 @login_required(login_url = '/')
@@ -135,7 +139,7 @@ def startRecordingCrowdCounting(request):
 
         if request.POST['ipaddress'] != '':
             ip = request.POST['ipaddress']
-
+        print(ip)
         if IP_address.objects.filter(user= request.user.id, name= 'crowd_counting').exists():
             IP_address.objects.filter(user= request.user.id, name= 'crowd_couting').update(ip_address= ip)
         else:
@@ -207,3 +211,60 @@ def logout_view(request):
 
 def landing(request):
     return render(request, 'landing.html')
+
+def profile(request):
+    return render(request,'profile.html')
+
+def profile_save(request):
+    u = User.objects.get(id=request.user.id)
+    if request.method == 'POST' :
+        if request.POST['first_name']!='':
+            first_name=request.POST['first_name']
+        else:
+            first_name= u.first_name
+
+        if request.POST['last_name']!='':
+            last_name=request.POST['last_name']
+        else:
+            last_name= u.last_name
+
+        if request.POST['username']!='':
+            username=request.POST['username']
+            if User.objects.filter(username=username).exists():
+                messages.info(request,'Username exists')
+                return redirect('profile')
+        else:
+            username= u.username
+
+        email=request.POST['email']
+        
+        if request.POST['email']!='':
+            email=request.POST['email']
+            if User.objects.filter(email=email).exists():
+                messages.info(request,'Existing email')
+                return redirect('profile')
+        else:
+            email= u.email
+        
+        u.first_name = first_name
+        u.last_name = last_name
+        u.username = username
+        u.email=email
+        u.save()
+        return redirect('profile')
+    # return render(request,'home.html')
+
+def help(request):
+    return render(request,'help.html')
+
+def send_email(request):
+    if request.method == 'POST' :
+        subject=request.POST['subject']
+        message=request.POST['message']
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = ['cleanse19.app@gmail.com']
+        send_mail(subject, message, email_from, recipient_list)
+        return render(request,'home.html')
+
+def analysis(request):
+    return render(request,'analysis.html')
