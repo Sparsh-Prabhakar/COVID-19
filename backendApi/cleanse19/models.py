@@ -5,8 +5,8 @@ from django.db import models
 # Create your models here.
 class IP_address(models.Model):
     user = models.ForeignKey(authUser, on_delete= models.CASCADE, default=None)
-    face_mask_ip = models.CharField(max_length=255, default=None, null=True)
-    crowd_ip = models.CharField(max_length=255, default=None, null=True)
+    name = models.CharField(max_length=255, default=None, null=True)
+    ip_address = models.CharField(max_length=255, default=None, null=True)
 
 class Face_mask(models.Model):
     user = models.ForeignKey(authUser, on_delete= models.CASCADE, default=None)

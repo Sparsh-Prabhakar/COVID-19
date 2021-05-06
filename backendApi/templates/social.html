@@ -7,20 +7,19 @@
 
 {% block content %}
     <h1>Social Distancing</h1>
-    <form action="social_ip" method="POST">
+    <form action="{% url 'start_recording_social_distancing' %}" method="POST">
+        {% csrf_token %}
         Enter IP address: <input type="text" name="ipaddress" id="ipaddress"><br>
-        <input type="submit"><br>
+        <input type="submit" value="Start Recording"><br>
     </form>
-    <hr>
-    {% if record.2.is_recording == 1 %}
+    {% if social.0.is_recording == 1 %}
+        <h4>Connected to {{ social_ip.0.ip_address }}</h4>
         <img src="{% url 'social_distancing' %}" id="image">
+        <br>
     {% endif %}
 
-    <form method="POST" action="{% url 'start_recording_social_distancing' %}">
-        <input type="submit" value="Start Recording">
-    </form>
-
     <form method="POST" action="{% url 'stop_recording_social_distancing' %}">
+        {% csrf_token %}
         <input type="submit" value="Stop Recording">
     </form>
 

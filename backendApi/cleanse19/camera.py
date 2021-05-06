@@ -19,8 +19,10 @@ from .config import *
 
 
 class FaceMaskDetection(object):
-    def __init__(self):
-        self.url = 'http://192.168.193.61:8080/shot.jpg'
+    def __init__(self, request):
+        ip = IP_address.objects.filter(user= request.user.id, name= 'face_mask')
+        ip = ip[0].ip_address + '/shot.jpg'
+        self.url = ip
 
     def delete(self):
         cv2.destroyAllWindows()
@@ -105,8 +107,10 @@ class FaceMaskDetection(object):
         return jpeg.tobytes()
     
 class CrowdCounting(object):
-    def __init__(self):
-        self.url = 'http://192.168.193.61:8080/shot.jpg'
+    def __init__(self, request):
+        ip = IP_address.objects.filter(user= request.user.id, name= 'crowd_counting')
+        ip = ip[0].ip_address + '/shot.jpg'
+        self.url = ip
 
     def delete(self):
         cv2.destroyAllWindows()
@@ -229,8 +233,10 @@ class CrowdCounting(object):
         return jpeg.tobytes()
 
 class SocialDistancing(object):
-    def __init__(self):
-        self.url = 'http://192.168.193.61:8080/shot.jpg'
+    def __init__(self, request):
+        ip = IP_address.objects.filter(user= request.user.id, name= 'social_distancing')
+        ip = ip[0].ip_address + '/shot.jpg'
+        self.url = ip
 
     def delete(self):
         cv2.destroyAllWindows()
