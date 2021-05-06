@@ -24,5 +24,6 @@ urlpatterns = [
     path('help',views.help,name="help"),
     path('send_email/',views.send_email, name="send_email"),
     path('analysis',views.analysis,name="analysis"),
-
+    
+    
 ]
