@@ -1,7 +1,0 @@
-face_classes='C:/Users/admin/Desktop/College/BE project/Cleanse19/COVID-19/face/classes.txt'
-face_weights = 'C:/Users/admin/Desktop/College/BE project/Cleanse19/COVID-19/face/yolov3_training_last.weights'
-face_cfg = 'C:/Users/admin/Desktop/College/BE project/Cleanse19/COVID-19/face/yolov3_testing.cfg'
-crowd_prototxt = 'C:/Users/admin/Desktop/College/BE project/Cleanse19/COVID-19/people counting/mobilenet_ssd/MobileNetSSD_deploy.prototxt'
-crowd_caffemodel = 'C:/Users/admin/Desktop/College/BE project/Cleanse19/COVID-19/people counting/mobilenet_ssd/MobileNetSSD_deploy.caffemodel'
-social_cfg = 'C:/Users/admin/Desktop/College/BE project/Cleanse19/COVID-19/social distancing/social-distancing-detector-master/yolo-coco/yolov3.cfg'
-social_weights = 'C:/Users/admin/Desktop/College/BE project/Cleanse19/COVID-19/social distancing/social-distancing-detector-master/yolo-coco/yolov3.weights' 
