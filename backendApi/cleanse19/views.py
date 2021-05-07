@@ -258,10 +258,12 @@ def help(request):
     return render(request,'help.html')
 
 def send_email(request):
+    u = User.objects.get(id=request.user.id)
     if request.method == 'POST' :
-        subject=request.POST['subject']
+        u = User.objects.get(id=request.user.id)
         message=request.POST['message']
         email_from = settings.EMAIL_HOST_USER
+        subject=u.email
         recipient_list = ['cleanse19.app@gmail.com']
         send_mail(subject, message, email_from, recipient_list)
         return render(request,'home.html')
