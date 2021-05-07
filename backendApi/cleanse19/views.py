@@ -312,4 +312,4 @@ def analysis(request):
                     people[i.timestamp.strftime("%x")][int(i.timestamp.strftime('%H'))] = i.violations
         
         print(face)
-        return render(request,'analysis.html')
+        return render(request,'analysis.html', {'face': face, 'social': social, 'people': people})
