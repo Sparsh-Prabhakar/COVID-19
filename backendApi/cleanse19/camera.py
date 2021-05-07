@@ -23,6 +23,7 @@ class FaceMaskDetection(object):
         ip = IP_address.objects.filter(user= request.user.id, name= 'face_mask')
         ip = ip[0].ip_address + '/shot.jpg'
         self.url = ip
+        self.counter = 0
 
     def delete(self):
         cv2.destroyAllWindows()
@@ -88,15 +89,23 @@ class FaceMaskDetection(object):
                 cv2.rectangle(img, (x,y), (x+w, y+h), color, 2)
                 # cv2.putText(frame_flip, label + " " + confidence, (x, y+20), font, 2, (255,255,255), 2)
 
-        if Face_mask.objects.filter(user= 1).exists():
-            Face_mask.objects.filter(user= 1).update(violations= count)
+        if Face_mask.objects.filter(user= request.user.id).exists():
+            Face_mask.objects.filter(user= request.user.id).update(violations= count)
         else:
-            user = authUser.objects.get(id= 1)       
+            user = authUser.objects.get(id= request.user.id)       
             face = Face_mask.objects.create(
                 user= user,
                 violations= count
             )                
             face.save()
+
+        self.counter += 1
+        if self.counter == 100:
+            FaceMaskAnalysis.objects.create(
+                user= authUser.objects.get(id= request.user.id),
+                violations= count
+            ).save()
+            self.counter = 0
             
 
         resize = cv2.resize(img, (640, 480), interpolation=cv2.INTER_LINEAR)
@@ -111,6 +120,7 @@ class CrowdCounting(object):
         ip = IP_address.objects.filter(user= request.user.id, name= 'crowd_counting')
         ip = ip[0].ip_address + '/shot.jpg'
         self.url = ip
+        self.counter = 0
 
     def delete(self):
         cv2.destroyAllWindows()
@@ -216,16 +226,23 @@ class CrowdCounting(object):
             text = "{}: {}".format(k, v)
             cv2.putText(frame, text, (10, H - ((i * 20) + 20)), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
 
-        if Crowd_counting.objects.filter(user= 1).exists():
-            Crowd_counting.objects.filter(user= 1).update(people_count= people_inside)
+        if Crowd_counting.objects.filter(user= request.user.id).exists():
+            Crowd_counting.objects.filter(user= request.user.id).update(people_count= people_inside)
         else:
-            user = authUser.objects.get(id= 1)       
+            user = authUser.objects.get(id= request.user.id)       
             crowd = Crowd_counting.objects.create(
                 user= user,
                 people_count= people_inside
             )                
             crowd.save()
 
+        self.counter += 1
+        if self.counter == 100:
+            CrowdCountingAnalysis.objects.create(
+                user= authUser.objects.get(id= request.user.id),
+                violations= count
+            ).save()
+            self.counter = 0
              
         resize = cv2.resize(frame, (640, 480), interpolation= cv2.INTER_LINEAR)
         ret, jpeg = cv2.imencode('.jpg', frame)
@@ -282,15 +299,23 @@ class SocialDistancing(object):
         text = "Social Distancing Violations: {}".format(len(violate))
         cv2.putText(frame, text, (10, frame.shape[0] - 25), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 3)
 
-        if Social_distancing.objects.filter(user= 1).exists():
-            Social_distancing.objects.filter(user= 1).update(violations= len(violate))
+        if Social_distancing.objects.filter(user= request.user.id).exists():
+            Social_distancing.objects.filter(user= request.user.id).update(violations= len(violate))
         else:
-            user = authUser.objects.get(id= 1)       
+            user = authUser.objects.get(id= request.user.id)       
             crowd = Social_distancing.objects.create(
                 user= user,
                 violations= len(violate)
             )                
             crowd.save()
+
+        self.counter += 1
+        if self.counter == 100:
+            SocialDistancingAnalysis.objects.create(
+                user= authUser.objects.get(id= request.user.id),
+                violations= count
+            ).save()
+            self.counter = 0
 
 
         resize = cv2.resize(frame, (640, 480), interpolation= cv2.INTER_LINEAR)

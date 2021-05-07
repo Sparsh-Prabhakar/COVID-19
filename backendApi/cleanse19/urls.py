@@ -3,8 +3,6 @@ from django.urls import include, path
 from cleanse19 import views
 
 urlpatterns = [
-    path('getPeopleCount/', views.getPeopleCount),
-    path('getFaceMaskViolations/', views.getFaceMaskViolations),
     path('', views.landing, name= 'landing'),
     path('home/', views.home, name='home'),
     path('faceMaskDetectionView/', views.faceMaskDetectionView, name='face_mask_detection_view'),
@@ -19,10 +17,13 @@ urlpatterns = [
     path('socialDistancing', views.social_distancing, name= 'social_distancing'),
     path('startRecordingSocialDistancing', views.startRecordingSocialDistancing, name='start_recording_social_distancing'),
     path('stopRecordingSocialDistancing', views.stopRecordingSocialDistancing, name='stop_recording_social_distancing'),
-    path('profile', views.profile,name="profile"),
-    path('profile_save/', views.profile_save, name="profile_save"),
-    path('help', views.help,name="help"),
-    path('send_email/', views.send_email, name="send_email"),
-    path('analysis', views.analysis,name="analysis"),
-    path('aboutUs', views.aboutUsView, name='about_us_view'),
+    path('profile',views.profile,name="profile"),
+    path('profile_save/',views.profile_save, name="profile_save"),
+    path('help/',views.help,name="help"),
+    path('send_email/',views.send_email, name="send_email"),
+    path('analysis/',views.analysis,name="analysis"),
+    path('getFaceMaskViolationsCount/', views.getFaceMaskViolationsCount, name='get_face_mask_violations_count'),
+    path('getPeopleCount/', views.getPeopleCount, name= 'get_people_count'),
+    path('getSocialDistancingViolationsCount/', views.getSocialDistancingViolationsCount, name='get_social_distancing_violations_count'),
+    path('aboutUs/', views.aboutUsView, name='about_us_view'),
 ]

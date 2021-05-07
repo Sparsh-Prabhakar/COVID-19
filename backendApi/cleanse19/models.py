@@ -27,3 +27,18 @@ class Recording(models.Model):
     user = models.ForeignKey(authUser, on_delete= models.CASCADE)
     name = models.CharField(max_length=100)
     is_recording = models.BooleanField(default=False)
+
+class FaceMaskAnalysis(models.Model):
+    user = models.ForeignKey(authUser, on_delete= models.CASCADE)
+    violations = models.IntegerField()
+    timestamp = models.DateTimeField(auto_now_add= True)
+
+class SocialDistancingAnalysis(models.Model):
+    user = models.ForeignKey(authUser, on_delete= models.CASCADE)
+    violations = models.IntegerField()
+    timestamp = models.DateTimeField(auto_now_add= True)
+
+class CrowdCountingAnalysis(models.Model):
+    user = models.ForeignKey(authUser, on_delete= models.CASCADE)
+    count = models.IntegerField()
+    timestamp = models.DateTimeField(auto_now_add= True)

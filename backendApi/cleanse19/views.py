@@ -21,23 +21,24 @@ from django.core.mail import send_mail
 
 # Create your views here.
 
-@csrf_exempt
 @login_required(login_url = '/')
-@require_http_methods(["POST"])
 def getPeopleCount(request):
-    if request.method == 'POST':
-        # id = request.user_id
-        count = serializers.serialize('json', Crowd_counting.objects.filter(user_id="1"))
-        return JsonResponse(count, safe=False)
+    if request.method == 'GET':
+        people_count = Crowd_counting.objects.filter(user= request.user.id)
+        return JsonResponse(people_count) 
 
-@csrf_exempt
 @login_required(login_url = '/')
-@require_http_methods(["POST"])
-def getFaceMaskViolations(request):
-    if request.method == 'POST':
-        # id = request.user_id
-        violations = serializers.serialize('json', Face_mask.objects.filter(user_id="1"))
-        return JsonResponse(violations, safe=False)
+def getFaceMaskViolationsCount(request):
+    if request.method == 'GET':
+        violations = Face_mask.objects.filter(user= request.user.id)
+        return JsonResponse(violations)
+
+@login_required(login_url= '/')
+def getSocialDistancingViolationsCount(request):
+    if request.method == 'GET':
+        violations = Social_distancing.objects.filter(user= request.user.id)
+        return JsonResponse(violations)
+
 
 @login_required(login_url = '/')
 def user_data(request):
@@ -212,11 +213,13 @@ def logout_view(request):
 def landing(request):
     return render(request, 'landing.html')
 
+@login_required(login_url= '/')
 def profile(request):
     return render(request,'profile.html')
 
+@login_required(login_url= '/')
 def profile_save(request):
-    u = User.objects.get(id=request.user.id)
+    u = authUser.objects.get(id=request.user.id)
     if request.method == 'POST' :
         if request.POST['first_name']!='':
             first_name=request.POST['first_name']
@@ -232,7 +235,7 @@ def profile_save(request):
             username= u.username
         else:
             username=request.POST['username']
-            if User.objects.filter(username=username).exists():
+            if authUser.objects.filter(username=username).exists():
                 messages.info(request,'Username exists')
                 return redirect('profile')
 
@@ -240,7 +243,7 @@ def profile_save(request):
             email= u.email
         else:
             email=request.POST['email']
-            if User.objects.filter(email=email).exists():
+            if authUser.objects.filter(email=email).exists():
                 messages.info(request,'Existing email')
                 return redirect('profile')
         
@@ -252,9 +255,11 @@ def profile_save(request):
         return redirect('profile')
     # return render(request,'home.html')
 
+@login_required(login_url= '/')
 def help(request):
     return render(request,'help.html')
 
+@login_required(login_url= '/')
 def send_email(request):
     u = User.objects.get(id=request.user.id)
     if request.method == 'POST' :
@@ -266,7 +271,48 @@ def send_email(request):
         send_mail(subject, message, email_from, recipient_list)
         return render(request,'home.html')
 
+@login_required(login_url= '/')
 def analysis(request):
+    if request.method == 'GET':
+        face_mask_violations = FaceMaskAnalysis.objects.filter(user= request.user.id)
+        social_distancing_violations = SocialDistancingAnalysis.objects.filter(user= request.user.id)
+        people_count = CrowdCountingAnalysis.objects.filter(user= request.user.id)
+
+        face_dates = []
+        face = {}
+        for i in face_mask_violations:
+            if i.timestamp.strftime("%x") not in face_dates:
+                face[i.timestamp.strftime("%x")] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                face[i.timestamp.strftime('%x')][int(i.timestamp.strftime('%H'))] = i.violations
+                face_dates.append(i.timestamp.strftime("%x"))
+            else:
+                if i.violations > face[i.timestamp.strftime('%x')][int(i.timestamp.strftime('%H'))]:
+                    face[i.timestamp.strftime("%x")][int(i.timestamp.strftime('%H'))] = i.violations
+
+        social_dates = []
+        social = {}
+        for i in social_distancing_violations:
+            if i.timestamp.strftime("%x") not in social_dates:
+                social[i.timestamp.strftime("%x")] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                social[i.timestamp.strftime('%x')][int(i.timestamp.strftime('%H'))] = i.violations
+                social_dates.append(i.timestamp.strftime("%x"))
+            else:
+                if i.violations > social[i.timestamp.strftime('%x')][int(i.timestamp.strftime('%H'))]:
+                    social[i.timestamp.strftime("%x")][int(i.timestamp.strftime('%H'))] = i.violations
+
+        people_dates = []
+        people = {}
+        for i in people_count:
+            if i.timestamp.strftime("%x") not in people_dates:
+                people[i.timestamp.strftime("%x")] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                people[i.timestamp.strftime('%x')][int(i.timestamp.strftime('%H'))] = i.violations
+                people_dates.append(i.timestamp.strftime("%x"))
+            else:
+                if i.violations > people[i.timestamp.strftime('%x')][int(i.timestamp.strftime('%H'))]:
+                    people[i.timestamp.strftime("%x")][int(i.timestamp.strftime('%H'))] = i.violations
+        
+        print(face)
+        return render(request,'analysis.html', {'face': face, 'social': social, 'people': people})
     return render(request,'analysis.html')
 
 @login_required(login_url = '/')
