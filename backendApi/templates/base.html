@@ -68,9 +68,9 @@
                                 <li><a href="{% url 'home' %}"><i class="fa fa-home"></i> Home </a></li>
                                 <li><a href="{% url 'face_mask_detection_view' %}"><i class="fa fa-user"></i> Face Mask Detection </a></li>
                                 <li><a href="{% url 'social_distancing_view' %}"><i class="fa fa-arrows"></i> Social Distancing </a></li>
-                                <li><a href="{% url 'crowd_counting_view' %}"><i class="fa fa-users"></i> Crowd Coutning </a></li>
+                                <li><a href="{% url 'crowd_counting_view' %}"><i class="fa fa-users"></i> Crowd Counting </a></li>
                                 <li><a href="{% url 'analysis' %}"><i class="fa fa-line-chart"></i> Analysis </a></li>
-                                <li><a href="#"><i class="fa fa-info"></i> About us </a></li>
+                                <li><a href="{% url 'about_us_view' %}"><i class="fa fa-info"></i> About us </a></li>
                             </ul>  
                         </div>
 
@@ -110,10 +110,9 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-usermenu pull-right"
                                     aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{% url 'profile' %}"> Profile</a>
-                                    <a class="dropdown-item" href="{% url 'help' %}">Help</a>
-                                    <a class="dropdown-item" href="/logout"><i class="fa fa-sign-out pull-right"></i>
-                                        Logout</a>
+                                    <a class="dropdown-item" href="{% url 'profile' %}"><i class="fa fa-user pull-right"></i>Profile</a>
+                                    <a class="dropdown-item" href="{% url 'help' %}"><i class="fa fa-question-circle pull-right"></i>Help</a>
+                                    <a class="dropdown-item" href="/logout"><i class="fa fa-sign-out pull-right"></i>Logout</a>
                                 </div>
                             </li>
 

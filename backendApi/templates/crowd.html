@@ -2,29 +2,25 @@
 {% load static %}
 
 {% block head %}
-
+    <title>Video Live Stream</title>
 {% endblock %}
 
 {% block content %}
-<h1>Crowd Counting</h1>
+    <h1>Crowd Counting</h1><hr>
 
-<hr>
-{% if crowd.0.is_recording == True %}
-<h4> Connected to {{ crowd_ip.0.ip_address }} </h4>
-<img src="{% url 'crowd_counting' %}">
-<form method="POST" action="{% url 'stop_recording_crowd_counting' %}">
-    {% csrf_token %}
-    <input type="submit" value="Stop Recording">
-</form>
-
-{% else %}
-<form action="{% url 'start_recording_crowd_counting' %}" method="POST">
-    {% csrf_token %}
-    Enter IP address: <input type="text" name="ipaddress" id="ipaddress"><br>
-    <input type="submit" value="Start Recording"><br>
-</form>
-{% endif %}
-
-
-
+    {% if crowd.0.is_recording != True %}
+        <form action="{% url 'start_recording_crowd_counting' %}" method="POST">
+            {% csrf_token %}
+            <label>IP Address:</label>
+                <input type="text" name="ipaddress" id="ipaddress"><br>
+                <input type="submit" value="Start Recording"><br>
+        </form>
+    {% else %}
+        <h4> Connected to {{ crowd_ip.0.ip_address }} </h4>
+        <img src="{% url 'crowd_counting' %}">
+        <form method="POST" action="{% url 'stop_recording_crowd_counting' %}">
+            {% csrf_token %}
+            <input type="submit" value="Stop Recording">
+        </form>
+    {% endif %}
 {% endblock %}
