@@ -1,13 +1,20 @@
 <!-- <a href="{% url 'home' %}">Login</a> -->
 {% load socialaccount %}
+
 <html>
-<body>
-<h1>Landing Page </h1>
-{% if user.is_authenticated %}
-  <p>Welcome, You are logged in as {{ user.username }}</p>
-  <a href="/logout">Logout</a>
-{% else %}
-  <a href="{% provider_login_url 'google' %}">Login With Google</a>
-{% endif %}
-</body>
+	<head>
+		<link rel="stylesheet" href="../static/styles/landing.css">
+	</head>
+
+	<body class="bg">
+		<h1 class="title">CLEANSE 19</h1>
+		<h4 class="subtitle">The New Efficient Way To Control COVID-19</h4>
+
+		{% if user.is_authenticated %}
+			<p>Welcome, You are logged in as {{ user.username }}</p>
+			<a href="/logout">Logout</a>
+		{% else %}
+			<a href="{% provider_login_url 'google' %}" class="login_button">Login With Google</a>
+		{% endif %}
+	</body>
 </html>

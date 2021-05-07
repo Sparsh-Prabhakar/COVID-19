@@ -3,29 +3,63 @@
 
 {% block head%}
 <title>Profile</title>
+<link rel="stylesheet" href="../static/styles/profile.css">
 {% endblock %}
 
 {% block content %}
-    <h1>Profile</h1><hr>
+<h1>Profile</h1>
+<hr>
+
+<div class="login-box">
     <form action="{% url 'profile_save' %}" method="POST">
         {% csrf_token %}
-        Username: <input type="text" name="username" id="username" placeholder="{{ user.username }}"><br>
-        First Name: <input type="text" name="first_name" id="first_name" placeholder="{{ user.first_name }}"><br>
-        Last Name: <input type="text" name="last_name" id="last_name" placeholder="{{ user.last_name }}"><br>
-       
-        Email: <input type="text" name="email" id="email" placeholder="{{ user.email }}"><br>
+        <div class="user-box">
+            <input type="text" name="username" id="username" value="{{ user.username }}">
+            <label>Username</label>
+        </div>
+        <div class="user-box">
+            <input type="text" name="first_name" id="first_name" value="{{ user.first_name }}" onchange="myFunction()">
+            <label>First Name</label>
+        </div>
+        <div class="user-box">
+            <input type="text" name="last_name" id="last_name" value="{{ user.last_name }}">
+            <label>Last Name</label>
+        </div>
+        <div class="user-box">
+            <input type="email" name="email" id="email" value="{{ user.email }}">
+            <label>Email ID</label>
+        </div>
+        <div class="submit-box">
+            <a><input type="submit" value="Save Changes" class="save-changes"></a>
+            <a class="cancel" href="{% url 'home' %}">Cancel</a>
+        </div>
+    </form>
+</div>
 
+<!-- <label>Username:</label>
+        <input type="text" name="username" id="username" placeholder="{{ user.username }}"><br>
+        <label>First Name:</label>
+        <input type="text" name="first_name" id="first_name" placeholder="{{ user.first_name }}"><br>
+        <label>Last Name:</label>
+        <input type="text" name="last_name" id="last_name" placeholder="{{ user.last_name }}"><br>
+        <label>Email:</label>
+        <input type="text" name="email" id="email" placeholder="{{ user.email }}"><br>
         <br>
         <input type="submit" value="Save Changes">
-        <a href="{% url 'home' %}">Cancel</a>
+        <a href="{% url 'home' %}">Cancel</a> -->
 
-    </form>
-    <div>
-        <h3>
-            {% for message in messages %}  
-              {{message}}
-            {% endfor %}   
-        </h3>
-    </div>
+<div>
+    <h3>
+        {% for message in messages %}
+        {% if message.tags == 'info' %}
+        {{ message }}
+        {% endif %}
+        {% endfor %}
+    </h3>
+</div>
+
+<script>
+    
+</script>
 
 {% endblock %}

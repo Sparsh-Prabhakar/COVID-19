@@ -219,7 +219,7 @@ def profile(request):
 
 @login_required(login_url= '/')
 def profile_save(request):
-    u = User.objects.get(id=request.user.id)
+    u = authUser.objects.get(id=request.user.id)
     if request.method == 'POST' :
         if request.POST['first_name']!='':
             first_name=request.POST['first_name']
@@ -230,24 +230,22 @@ def profile_save(request):
             last_name=request.POST['last_name']
         else:
             last_name= u.last_name
-
-        if request.POST['username']!='':
+        
+        if request.POST['username']==''or request.POST['username']==u.username:
+            username= u.username
+        else:
             username=request.POST['username']
-            if User.objects.filter(username=username).exists():
+            if authUser.objects.filter(username=username).exists():
                 messages.info(request,'Username exists')
                 return redirect('profile')
-        else:
-            username= u.username
 
-        email=request.POST['email']
-        
-        if request.POST['email']!='':
+        if request.POST['email']=='' or request.POST['email']==u.email:
+            email= u.email
+        else:
             email=request.POST['email']
-            if User.objects.filter(email=email).exists():
+            if authUser.objects.filter(email=email).exists():
                 messages.info(request,'Existing email')
                 return redirect('profile')
-        else:
-            email= u.email
         
         u.first_name = first_name
         u.last_name = last_name
@@ -263,10 +261,12 @@ def help(request):
 
 @login_required(login_url= '/')
 def send_email(request):
+    u = User.objects.get(id=request.user.id)
     if request.method == 'POST' :
-        subject=request.POST['subject']
+        u = User.objects.get(id=request.user.id)
         message=request.POST['message']
         email_from = settings.EMAIL_HOST_USER
+        subject=u.email
         recipient_list = ['cleanse19.app@gmail.com']
         send_mail(subject, message, email_from, recipient_list)
         return render(request,'home.html')
@@ -313,3 +313,9 @@ def analysis(request):
         
         print(face)
         return render(request,'analysis.html', {'face': face, 'social': social, 'people': people})
+    return render(request,'analysis.html')
+
+@login_required(login_url = '/')
+def aboutUsView(request):
+    user = user_data(request)
+    return render(request, 'aboutus.html', user)
