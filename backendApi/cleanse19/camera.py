@@ -254,6 +254,7 @@ class SocialDistancing(object):
         ip = IP_address.objects.filter(user= request.user.id, name= 'social_distancing')
         ip = ip[0].ip_address + '/shot.jpg'
         self.url = ip
+        self.counter = 0
 
     def delete(self):
         cv2.destroyAllWindows()
