@@ -12,7 +12,7 @@
         <form action="{% url 'start_recording_crowd_counting' %}" method="POST">
             {% csrf_token %}
             <label>IP Address:</label>
-                <input type="text" name="ipaddress" id="ipaddress"><br>
+                <input type="text" name="ipaddress" id="ipaddress" required=True><br>
                 <input type="submit" value="Start Recording"><br>
         </form>
     {% else %}

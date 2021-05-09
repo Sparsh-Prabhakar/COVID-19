@@ -65,8 +65,8 @@
                         <div class="menu_section">
                             <!-- <h3>General</h3> -->
                             <ul class="nav side-menu">
-                                <li><a href="{% url 'home' %}"><i class="fa fa-home"></i> Home </a></li>
-                                <li><a href="{% url 'face_mask_detection_view' %}"><i class="fa fa-user"></i> Face Mask Detection </a></li>
+                                <li><a href="{% url 'home' %}"><i class="fa fa-home" id='button'></i> Home </a></li>
+                                <li><a href="{% url 'face_mask_detection_view' %}"><i class="fa fa-user" ></i> Face Mask Detection </a></li>
                                 <li><a href="{% url 'social_distancing_view' %}"><i class="fa fa-arrows"></i> Social Distancing </a></li>
                                 <li><a href="{% url 'crowd_counting_view' %}"><i class="fa fa-users"></i> Crowd Counting </a></li>
                                 <li><a href="{% url 'analysis' %}"><i class="fa fa-line-chart"></i> Analysis </a></li>
@@ -116,88 +116,20 @@
                                 </div>
                             </li>
 
-                            <!-- <li role="presentation" class="nav-item dropdown open">
-                                <a href="javascript:;" class="dropdown-toggle info-number" id="navbarDropdown1"
-                                    data-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa fa-envelope-o"></i>
-                                    <span class="badge bg-green">6</span>
-                                </a>
-                                <ul class="dropdown-menu list-unstyled msg_list" role="menu"
-                                    aria-labelledby="navbarDropdown1">
-                                    <li class="nav-item">
-                                        <a class="dropdown-item">
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were
-                                                where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="dropdown-item">
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were
-                                                where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="dropdown-item">
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were
-                                                where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="dropdown-item">
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were
-                                                where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <div class="text-center">
-                                            <a class="dropdown-item">
-                                                <strong>See All Alerts</strong>
-                                                <i class="fa fa-angle-right"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li> -->
                         </ul>
                     </nav>
                 </div>
             </div>
             <!-- /top navigation -->
             <div class="right_col" role="main">
+            
             {% block content%}
-
+                
             {% endblock %}
             </div>
         </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- jQuery -->
     <script src="{% static '/vendors/jquery/dist/jquery.min.js' %}"></script>
     <!-- Bootstrap -->
