@@ -2,27 +2,57 @@
 {% load static %}
 
 {% block head %}
-    <title>Video Live Stream</title>
-    <link rel="stylesheet" href="../static/styles/face.css">
+<title>Video Live Stream</title>
+<link rel="stylesheet" href="{% static 'styles/recording.css' %}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 {% endblock %}
 
 {% block content %}
-    <h1>Face Mask Detection</h1><hr>
+<h1>Face Mask Detection</h1>
+<hr>
 
-    {% if face.0.is_recording != 1 %}
-        <form action="{% url 'start_recording_face_mask' %}" method="POST">
-            {% csrf_token %}
-            <label>IP Address:</label>
-            <input type="text" name="ipaddress" id="ipaddress"><br>
-            <input type="submit" value="Start Recording"><br>    
-        </form>
-    {% else %}
-        <h4>Connected to {{ face_ip.0.ip_address }}</h4>
-        <img src="{% url 'face_mask_detection' %}" id="image">
-        <br>    
-        <form method="POST" action="{% url 'stop_recording_face_mask' %}">
-            {% csrf_token %}
-            <input type="submit" value="Stop Recording">
-        </form>
-    {% endif %}
+{% if face.0.is_recording != 1 %}
+<div class="form-box">
+    <form action="{% url 'start_recording_face_mask' %}" method="POST">
+        {% csrf_token %}
+        <div class="ip-address-box">
+            <label>IP Address</label><br>
+            <input type="text" name="ipaddress" id="ipaddress" required="True">
+        </div>
+        <input type="submit" class="start" value="Start Recording">
+    </form>
+</div>
+{% else %}
+<div class="connected-box">
+    <h4>Connected to {{ face_ip.0.ip_address }}</h4>
+    <div class="row">
+        <div>
+            <img src="{% url 'face_mask_detection' %}" id="image">
+        </div>
+        <div class="column">
+            <form method="POST" action="{% url 'stop_recording_face_mask' %}">
+                {% csrf_token %}
+                <input type="submit" class="stop" value="Stop Recording">
+            </form>
+        </div>
+        <script type="text/javascript">
+            document.write("hello script");
+            $.ajax({
+                type: 'GET',
+                url: '/getFaceMaskViolationsCount',
+                dataType: 'json',
+                success: function (response) {
+                    s
+                    document.write("hello function")
+                    '<h2>Violations: ${response.violations}</h2>';
+                    // <h2>Violations: ${face_mask.violations}</h2>;
+                },
+                error: function (error_data) {
+                    console.log(error_data);
+                }
+            });
+        </script>
+    </div>
+</div>
+{% endif %}
 {% endblock %}

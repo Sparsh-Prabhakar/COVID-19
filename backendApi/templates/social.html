@@ -2,26 +2,39 @@
 {% load static %}
 
 {% block head %}
-    <title>Video Live Stream</title>
+<title>Video Live Stream</title>
+<link rel="stylesheet" href="{% static 'styles/recording.css' %}">
 {% endblock %}
 
 {% block content %}
-    <h1>Social Distancing</h1><hr>
+<h1>Social Distancing</h1>
+<hr>
 
-    {% if social.0.is_recording != 1 %}
-        <form action="{% url 'start_recording_social_distancing' %}" method="POST">
-            {% csrf_token %}
-            <label>IP Address:</label>
-            <input type="text" name="ipaddress" id="ipaddress" required="True"><br>
-            <input type="submit" value="Start Recording"><br>
-        </form>
-    {% else %}
-        <h4>Connected to {{ social_ip.0.ip_address }}</h4>
-        <img src="{% url 'social_distancing' %}" id="image">
-        <br>
-        <form method="POST" action="{% url 'stop_recording_social_distancing' %}">
-            {% csrf_token %}
-            <input type="submit" value="Stop Recording">
-        </form>
-    {% endif %}
+{% if social.0.is_recording != 1 %}
+<div class="form-box">
+    <form action="{% url 'start_recording_social_distancing' %}" method="POST">
+        {% csrf_token %}
+        <div class="ip-address-box">
+            <label>IP Address</label><br>
+            <input type="text" name="ipaddress" id="ipaddress" required="True">
+        </div>
+        <input type="submit" class="start" value="Start Recording"><br>
+    </form>
+</div>
+{% else %}
+<div class="connected-box">
+    <h4>Connected to {{ social_ip.0.ip_address }}</h4>
+    <div class="row">
+        <div>
+            <img src="{% url 'social_distancing' %}" id="image">
+        </div>
+        <div class="column">
+            <form method="POST" action="{% url 'stop_recording_social_distancing' %}">
+                {% csrf_token %}
+                <input type="submit" class="stop" value="Stop Recording">
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
 {% endblock %}
