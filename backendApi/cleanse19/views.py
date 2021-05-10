@@ -96,11 +96,11 @@ def home(request):
             people_count=0,
             user=authUser.objects.get(id=request.user.id)
         ).save()
-    #violations_face = Face_mask.objects.get(user= request.user.id)
-    #violations_social = Social_distancing.objects.get(user= request.user.id)
-    #people_count = Crowd_counting.objects.get(user= request.user.id)
-    return render(request, 'home.html', user)
-    # return render(request, 'home.html',{'violations_face':violations_face,'violations_social':violations_social,'people_count':people_count})
+    violations_face = Face_mask.objects.get(user= request.user.id)
+    violations_social = Social_distancing.objects.get(user= request.user.id)
+    people_count = Crowd_counting.objects.get(user= request.user.id)
+    #return render(request, 'home.html', user)
+    return render(request, 'home.html',{'violations_face':violations_face,'violations_social':violations_social,'people_count':people_count})
 
 
 def update_home(request):

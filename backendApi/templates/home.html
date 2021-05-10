@@ -15,17 +15,17 @@
     <div class="tile_count">
         <div class="col-md-4 col-sm-4  tile_stats_count" style="width: 400px;">
             <span class="count_top"><i class="fa fa-user"></i> Face Mask Detection</span>
-            <div class="count green" id='face'>0</div>
+            <div class="count green" id='face'>{{violations_face.violations}}</div>
             <span class="count_bottom"> violations</span>
         </div>
         <div class="col-md-4 col-sm-4  tile_stats_count" style="width: 400px;">
             <span class="count_top"><i class="fa fa-arrows"></i> Social Distancing</span>
-            <div class="count green" id='social'>0</div>
+            <div class="count green" id='social'>{{violations_social.violations}}</div>
             <span class="count_bottom">violations</span>
         </div>
         <div class="col-md-4 col-sm-4  tile_stats_count" style="width: 400px;">
             <span class="count_top"><i class="fa fa-users"></i> Crowd Counting</span>
-            <div class="count green" id='crowd'>0</div>
+            <div class="count green" id='crowd'>{{people_count.people_count}}</div>
             <span class="count_bottom">crowd count</span>
         </div>
 
