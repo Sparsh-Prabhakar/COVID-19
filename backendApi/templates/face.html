@@ -35,7 +35,7 @@
     <h4>Connected to {{ face_ip.0.ip_address }}</h4>
     <div class="row">
         <div>
-            <img src="{% url 'face_mask_detection' %}" id="image">
+            <img src="{% url 'face_mask_detection' %}" id="image" width="1000" height="700">
         </div>
         <div class="column">
             <form method="POST" action="{% url 'stop_recording_face_mask' %}">

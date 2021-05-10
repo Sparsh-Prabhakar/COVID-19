@@ -34,7 +34,7 @@
     <h4> Connected to {{ crowd_ip.0.ip_address }}</h4>
     <div class="row">
         <div>
-            <img src="{% url 'crowd_counting' %}">
+            <img src="{% url 'crowd_counting' %}" width="1000" height="700">
         </div>
         <div class="column">
             <form method="POST" action="{% url 'stop_recording_crowd_counting' %}">

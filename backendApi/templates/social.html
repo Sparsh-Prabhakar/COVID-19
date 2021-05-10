@@ -34,7 +34,7 @@
     <h4>Connected to {{ social_ip.0.ip_address }}</h4>
     <div class="row">
         <div>
-            <img src="{% url 'social_distancing' %}" id="image">
+            <img src="{% url 'social_distancing' %}" id="image" height="700" width="1000">
         </div>
         <div class="column">
             <form method="POST" action="{% url 'stop_recording_social_distancing' %}">

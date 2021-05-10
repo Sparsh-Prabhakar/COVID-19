@@ -108,7 +108,7 @@ class FaceMaskDetection(object):
             self.counter = 0
             
 
-        resize = cv2.resize(img, (640, 480), interpolation=cv2.INTER_LINEAR)
+        resize = cv2.resize(img, (1000, 700), interpolation=cv2.INTER_LINEAR)
         frame_flip = cv2.flip(resize, 1)
         text = "Face Mask Violations: {}".format(count)
         cv2.putText(frame_flip, text, (10, frame_flip.shape[0] - 25), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 3)
@@ -246,7 +246,7 @@ class CrowdCounting(object):
             ).save()
             self.counter = 0
              
-        resize = cv2.resize(frame, (640, 480), interpolation= cv2.INTER_LINEAR)
+        resize = cv2.resize(frame, (1000, 700), interpolation= cv2.INTER_LINEAR)
         ret, jpeg = cv2.imencode('.jpg', frame)
 
         return jpeg.tobytes()
@@ -273,7 +273,7 @@ class SocialDistancing(object):
         ln = net.getLayerNames()
         ln = [ln[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 
-        frame = imutils.resize(frame, width=640)
+        frame = imutils.resize(frame, width=1000, height= 700)
         results = detect_people(frame, net, ln, personIdx=labels[0])    
 
         violate = set()
@@ -316,12 +316,12 @@ class SocialDistancing(object):
         if self.counter == 10:
             SocialDistancingAnalysis.objects.create(
                 user= authUser.objects.get(id= request.user.id),
-                violations= count
+                violations= len(violate)
             ).save()
             self.counter = 0
 
 
-        resize = cv2.resize(frame, (640, 480), interpolation= cv2.INTER_LINEAR)
+        resize = cv2.resize(frame, (1000, 700), interpolation= cv2.INTER_LINEAR)
         ret, jpeg = cv2.imencode('.jpg', frame)
 
         return jpeg.tobytes()
