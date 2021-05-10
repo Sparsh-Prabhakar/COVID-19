@@ -1,9 +1,12 @@
 <!-- <a href="{% url 'home' %}">Login</a> -->
 {% load socialaccount %}
+{% load static %}
 
 <html>
+
 	<head>
-		<link rel="stylesheet" href="../static/styles/landing.css">
+		<title>Cleanse 19</title>
+		<link rel="stylesheet" href="{% static 'styles/landing.css' %}">
 	</head>
 
 	<body class="bg">
@@ -11,10 +14,14 @@
 		<h4 class="subtitle">The New Efficient Way To Control COVID-19</h4>
 
 		{% if user.is_authenticated %}
-			<p>Welcome, You are logged in as {{ user.username }}</p>
+		<div class="logged-in">
+			<p>You are logged in as {{ user.username }}</p>
 			<a href="/logout">Logout</a>
+			<a href="/home">Go to Home Page</a>
+		</div>
 		{% else %}
-			<a href="{% provider_login_url 'google' %}" class="login_button">Login With Google</a>
+		<a href="{% provider_login_url 'google' %}" class="login_button">Login With Google</a>
 		{% endif %}
 	</body>
+
 </html>

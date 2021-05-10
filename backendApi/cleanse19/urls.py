@@ -22,6 +22,7 @@ urlpatterns = [
     path('profile_save/',views.profile_save, name="profile_save"),
     path('help/',views.help,name="help"),
     path('send_email/',views.send_email, name="send_email"),
+    path('analysisView/', views.analysisView, name="analysis_view"),
     path('analysis/',views.analysis,name="analysis"),
     path('getFaceMaskViolationsCount/', views.getFaceMaskViolationsCount, name='get_face_mask_violations_count'),
     path('getPeopleCount/', views.getPeopleCount, name= 'get_people_count'),

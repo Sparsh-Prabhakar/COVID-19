@@ -3,7 +3,7 @@
 
 {% block head%}
 <title>Profile</title>
-<link rel="stylesheet" href="../static/styles/profile.css">
+<link rel="stylesheet" href="{% static 'styles/profile.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -18,7 +18,7 @@
             <label>Username</label>
         </div>
         <div class="user-box">
-            <input type="text" name="first_name" id="first_name" value="{{ user.first_name }}" onchange="myFunction()">
+            <input type="text" name="first_name" id="first_name" value="{{ user.first_name }}">
             <label>First Name</label>
         </div>
         <div class="user-box">

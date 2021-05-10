@@ -3,37 +3,12 @@
 
 {% block head %}
 <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
-    <style>
-    * {
-    box-sizing: border-box;
-    }
-
-    /* Create three equal columns that floats next to each other */
-    .column {
-    float: left;
-    width: 33.33%;
-    text-align: center;
-    padding: 10px;
-    }
-
-    /* Clear floats after the columns */
-    .row:after {
-    content: "";
-    display: table;
-    clear: both;
-    }
-
-    /* ABOUT DEVELOPERS */
-    .title {
-        margin-bottom: 0%;
-        font-style: italic;
-    }
-</style>
+<link rel="stylesheet" href="{% static 'styles/aboutus.css' %}">
 {% endblock %}
 
 {% block content %}
     <h1>About us</h1>
-    <p>Developers have put forth a beautiful mechanism to understand and analyse this 
+    <p>Developers have put forth a mechanism to understand and analyse this 
         current horrific situation.</p>
     <hr>
 
@@ -60,7 +35,7 @@
         </div>
         <div class="column">
             <h4>Sparsh Prabhakar</h4>
-            <img src="../static/img/Sayali.jpg" width="190" height="250"/><br><br>
+            <img src="../static/img/Sparsh.jpeg" width="190" height="250"/><br><br>
             <label class="title">Qualification</label><br>
             <label>B.E. Information Technology</label><br>
             <label class="title">Contact No.</label><br>

@@ -3,22 +3,24 @@
 
 {% block head%}
 <title>Help</title>
+<link rel="stylesheet" href="{% static 'styles/help.css' %}">
 {% endblock %}
 
 {% block content %}
-    <h1>Help</h1><hr>
+<h1>Help</h1>
+<hr>
+<div class="form-box">
     <form action="{% url 'send_email' %}" method="POST">
         {% csrf_token %}
-        <!-- Email: <input type="text" name="email" id="email"><br> -->
-        <!-- Subject: <input type="text" name="subject" id="subject"><br> -->
-        Message: <input type="textarea" style="height: 200px; width: 400px;" name="message" id="message">
-        
-
-        <br>
-        <input type="submit" value="Send Mail">
-        <a href="{% url 'home' %}">Cancel</a>
-
+        <div class="message-box">
+            <input type="textarea" name="message" id="message">
+            <label>Message</label>
+        </div>
+        <div class="submit-box">
+            <input type="submit" class="ask-query" value="Ask Query">
+            <a class="cancel" href="{% url 'home' %}">Cancel</a>
+        </div>
     </form>
-    
+</div>
 
 {% endblock %}

@@ -331,7 +331,7 @@ def profile_save(request):
         u.username = username
         u.email = email
         u.save()
-        messages.info(request, 'Changes saved')
+        messages.info(request,'Saved changes!')
         return redirect('profile')
     # return render(request,'home.html')
 
@@ -353,6 +353,10 @@ def send_email(request):
         send_mail(subject, message, email_from, recipient_list)
         return render(request, 'home.html')
 
+@login_required(login_url = '/')
+def analysisView(request):
+    user = user_data(request)
+    return render(request, 'analysis.html', user)
 
 @login_required(login_url='/')
 def analysis(request):
@@ -403,13 +407,12 @@ def analysis(request):
                 people_dates.append(i.timestamp.strftime("%x"))
             else:
                 if i.violations > people[i.timestamp.strftime('%x')][int(i.timestamp.strftime('%H'))]:
-                    people[i.timestamp.strftime("%x")][int(
-                        i.timestamp.strftime('%H'))] = i.violations
-
-        print(face)
-        return render(request, 'analysis.html', {'face': face, 'social': social, 'people': people})
-    return render(request, 'analysis.html')
-
+                    people[i.timestamp.strftime("%x")][int(i.timestamp.strftime('%H'))] = i.violations
+        
+        # print(face)
+        # return render(request, 'analysis.html', {'face': face, 'social': social, 'people': people})
+        return JsonResponse({'face': face, 'social': social, 'people': people})
+    return render(request,'analysis.html')
 
 @login_required(login_url='/')
 def aboutUsView(request):
