@@ -5,6 +5,7 @@ from cleanse19 import views
 urlpatterns = [
     path('', views.landing, name= 'landing'),
     path('home/', views.home, name='home'),
+    path('update_home/', views.update_home, name='update_home'),
     path('faceMaskDetectionView/', views.faceMaskDetectionView, name='face_mask_detection_view'),
     path('faceMaskDetection/', views.face_mask_detection, name='face_mask_detection'),
     path('crowdCounting/', views.crowd_counting, name= 'crowd_counting'),

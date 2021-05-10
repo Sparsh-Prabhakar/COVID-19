@@ -29,11 +29,21 @@
             <input type="email" name="email" id="email" value="{{ user.email }}">
             <label>Email ID</label>
         </div>
+        <div>
+        <h4 style="font-size: 16px; color: white;">
+            {% for message in messages %}
+            {% if message.tags == 'info' %}
+            {{ message }}
+            {% endif %}
+            {% endfor %}
+        </h4>
+    </div>
         <div class="submit-box">
             <a><input type="submit" value="Save Changes" class="save-changes"></a>
             <a class="cancel" href="{% url 'home' %}">Cancel</a>
         </div>
     </form>
+    
 </div>
 
 <!-- <label>Username:</label>
@@ -48,15 +58,7 @@
         <input type="submit" value="Save Changes">
         <a href="{% url 'home' %}">Cancel</a> -->
 
-<div>
-    <h3>
-        {% for message in messages %}
-        {% if message.tags == 'info' %}
-        {{ message }}
-        {% endif %}
-        {% endfor %}
-    </h3>
-</div>
+
 
 <script>
     

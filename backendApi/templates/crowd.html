@@ -9,7 +9,6 @@
 {% block content %}
 <h1>Crowd Counting</h1>
 <hr>
-
 {% if crowd.0.is_recording != True %}
 <div class="form-box">
     <form action="{% url 'start_recording_crowd_counting' %}" method="POST">

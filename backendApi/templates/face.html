@@ -10,7 +10,6 @@
 {% block content %}
 <h1>Face Mask Detection</h1>
 <hr>
-
 {% if face.0.is_recording != 1 %}
 <div class="form-box">
     <form action="{% url 'start_recording_face_mask' %}" method="POST">

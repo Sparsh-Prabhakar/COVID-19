@@ -100,7 +100,7 @@ class FaceMaskDetection(object):
             face.save()
 
         self.counter += 1
-        if self.counter == 100:
+        if self.counter == 10:
             FaceMaskAnalysis.objects.create(
                 user= authUser.objects.get(id= request.user.id),
                 violations= count

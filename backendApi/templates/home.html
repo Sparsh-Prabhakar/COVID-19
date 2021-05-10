@@ -6,6 +6,33 @@
 {% endblock %}
 
 {% block content %}
+<div class="row"  style="display: inline-block;">
+
+    <!-- <button type="button" id='button' onclick="myFunction()">
+        Refresh
+    </button> -->
+
+    <div class="tile_count">
+        <div class="col-md-4 col-sm-4  tile_stats_count" style="width: 400px;">
+            <span class="count_top"><i class="fa fa-user"></i> Face Mask Detection</span>
+            <div class="count green" id='face'>0</div>
+            <span class="count_bottom"> violations</span>
+        </div>
+        <div class="col-md-4 col-sm-4  tile_stats_count" style="width: 400px;">
+            <span class="count_top"><i class="fa fa-arrows"></i> Social Distancing</span>
+            <div class="count green" id='social'>0</div>
+            <span class="count_bottom">violations</span>
+        </div>
+        <div class="col-md-4 col-sm-4  tile_stats_count" style="width: 400px;">
+            <span class="count_top"><i class="fa fa-users"></i> Crowd Counting</span>
+            <div class="count green" id='crowd'>0</div>
+            <span class="count_bottom">crowd count</span>
+        </div>
+
+
+    </div>
+</div>
+<hr>
 <a href="{% url 'face_mask_detection_view' %}">Face Mask Detection</a>
 <br>
 <a href="{% url 'crowd_counting_view' %}">Crowd Counting</a>
@@ -13,4 +40,26 @@
 <a href="{% url 'social_distancing_view' %}">Social Distancing</a>
 
 <h3>Instructions to connect to camera.</h3>
+
+<script type="text/javascript">
+    document.getElementById("button").onclick = function () { myFunction() }
+    function myFunction() {
+        
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+              //console.log(this.responseText)
+              values=JSON.parse(this.responseText)
+              console.log(values.violations_face)
+              $('#face').contents()[0].textContent = values.violations_face;
+              $('#social').contents()[0].textContent = values.violations_social;
+              $('#crowd').contents()[0].textContent = values.people_count;
+            
+          }
+        };
+        xhttp.open("GET", "/update_home", true);
+        xhttp.send();
+      }
+      setInterval(myFunction,3000);
+</script>
 {% endblock %}
