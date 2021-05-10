@@ -9,6 +9,15 @@
 {% block content %}
 <h1>Crowd Counting</h1>
 <hr>
+
+{% if social.0.is_recording %}
+    <img src="{% url 'social_distancing' %}" style="display: none;">
+{% endif %}
+
+{% if face.0.is_recording %}
+    <img src="{% url 'face_mask_detection' %}" style="display: none;">
+{% endif %}
+
 {% if crowd.0.is_recording != True %}
 <div class="form-box">
     <form action="{% url 'start_recording_crowd_counting' %}" method="POST">

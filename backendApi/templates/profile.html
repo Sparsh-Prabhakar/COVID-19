@@ -30,7 +30,7 @@
             <label>Email ID</label>
         </div>
         <div>
-        <h4 style="font-size: 16px; color: white;">
+        <h4 style="font-size: 30px; color: orange;">
             {% for message in messages %}
             {% if message.tags == 'info' %}
             {{ message }}
@@ -39,7 +39,7 @@
         </h4>
     </div>
         <div class="submit-box">
-            <a><input type="submit" value="Save Changes" class="save-changes"></a>
+            <a><input type="submit" value="Save" class="save-changes"></a>
             <a class="cancel" href="{% url 'home' %}">Cancel</a>
         </div>
     </form>

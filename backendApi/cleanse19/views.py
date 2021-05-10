@@ -315,7 +315,7 @@ def profile_save(request):
         else:
             username = request.POST['username']
             if authUser.objects.filter(username=username).exists():
-                messages.info(request, 'Username exists')
+                messages.info(request, 'Username already exists')
                 return redirect('profile')
 
         if request.POST['email'] == '' or request.POST['email'] == u.email:
@@ -323,7 +323,7 @@ def profile_save(request):
         else:
             email = request.POST['email']
             if authUser.objects.filter(email=email).exists():
-                messages.info(request, 'Existing email')
+                messages.info(request, 'Email already exists')
                 return redirect('profile')
 
         u.first_name = first_name

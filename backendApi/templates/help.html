@@ -12,9 +12,9 @@
 <div class="form-box">
     <form action="{% url 'send_email' %}" method="POST">
         {% csrf_token %}
+        <label>Message</label>
         <div class="message-box">
-            <input type="textarea" name="message" id="message">
-            <label>Message</label>
+            <input type="textarea" name="message" id="message" required>
         </div>
         <div class="submit-box">
             <input type="submit" class="ask-query" value="Ask Query">

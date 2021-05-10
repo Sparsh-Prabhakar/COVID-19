@@ -10,6 +10,15 @@
 {% block content %}
 <h1>Face Mask Detection</h1>
 <hr>
+
+{% if social.0.is_recording %}
+    <img src="{% url 'social_distancing' %}" style="display: none;">
+{% endif %}
+
+{% if crowd.0.is_recording %}
+    <img src="{% url 'crowd_counting' %}" style="display: none;">
+{% endif %}
+
 {% if face.0.is_recording != 1 %}
 <div class="form-box">
     <form action="{% url 'start_recording_face_mask' %}" method="POST">
@@ -34,7 +43,7 @@
                 <input type="submit" class="stop" value="Stop Recording">
             </form>
         </div>
-        <script type="text/javascript">
+        <!-- <script type="text/javascript">
             document.write("hello script");
             $.ajax({
                 type: 'GET',
@@ -50,7 +59,7 @@
                     console.log(error_data);
                 }
             });
-        </script>
+        </script> -->
     </div>
 </div>
 {% endif %}

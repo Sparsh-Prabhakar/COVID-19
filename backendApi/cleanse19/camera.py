@@ -87,7 +87,7 @@ class FaceMaskDetection(object):
                     count += 1
                     color = (0, 0, 255)
                 cv2.rectangle(img, (x,y), (x+w, y+h), color, 2)
-                # cv2.putText(frame_flip, label + " " + confidence, (x, y+20), font, 2, (255,255,255), 2)
+                
 
         if Face_mask.objects.filter(user= request.user.id).exists():
             Face_mask.objects.filter(user= request.user.id).update(violations= count)
@@ -110,6 +110,8 @@ class FaceMaskDetection(object):
 
         resize = cv2.resize(img, (640, 480), interpolation=cv2.INTER_LINEAR)
         frame_flip = cv2.flip(resize, 1)
+        text = "Face Mask Violations: {}".format(count)
+        cv2.putText(frame_flip, text, (10, frame_flip.shape[0] - 25), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 3)
 
         ret, jpeg = cv2.imencode('.jpg', frame_flip)
 
@@ -254,6 +256,7 @@ class SocialDistancing(object):
         ip = IP_address.objects.filter(user= request.user.id, name= 'social_distancing')
         ip = ip[0].ip_address + '/shot.jpg'
         self.url = ip
+        self.counter = 0
 
     def delete(self):
         cv2.destroyAllWindows()
