@@ -1,14 +1,10 @@
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.core import serializers
 from django.http import HttpResponse, JsonResponse
 from django.http.response import StreamingHttpResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.views import APIView
 from django.contrib.auth.models import User
 from django.contrib import messages
 
@@ -409,7 +405,7 @@ def analysis(request):
                 if i.violations > people[i.timestamp.strftime('%x')][int(i.timestamp.strftime('%H'))]:
                     people[i.timestamp.strftime("%x")][int(i.timestamp.strftime('%H'))] = i.violations
         
-        # print(face)
+        print(face)
         # return render(request, 'analysis.html', {'face': face, 'social': social, 'people': people})
         return JsonResponse({'face': face, 'social': social, 'people': people})
     return render(request,'analysis.html')
