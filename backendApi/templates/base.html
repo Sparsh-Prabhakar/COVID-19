@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="images/favicon.ico" type="image/ico" />
+    <link rel="icon" href="{% static '/img/icon.png' %}" type="image/ico" />
 
     <title>Cleanse 19</title>
 
@@ -38,10 +38,11 @@
 <body class="nav-md">
     <div class="container body">
         <div class="main_container">
-            <div class="col-md-3 left_col">
+            <div class="col-md-3 left_col"  style="position: fixed;">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="{% url 'home' %}" class="site_title"><i class="fa fa-video-camera"></i> <span> Cleanse 19</span></a>
+                        
+                        <a href="{% url 'home' %}" class="site_title"><img src="{% static '/img/icon2.png' %}" width="30px" height="30px"> <span> Cleanse 19</span></a>
                     </div>
 
                     <div class="clearfix"></div>
@@ -79,18 +80,7 @@
 
                     <!-- /menu footer buttons -->
                     <div class="sidebar-footer hidden-small">
-                        <!-- <a data-toggle="tooltip" data-placement="top" title="Settings">
-                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                            <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Lock">
-                            <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="/logout">
-                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                        </a> -->
+                       
                         <h6 style="width:100%; margin-left: 35px; color: white;"> Cleanse'19 &copy; 2021</h6>
                     </div>
                     <!-- /menu footer buttons -->
