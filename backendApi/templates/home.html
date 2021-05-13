@@ -2,15 +2,13 @@
 {% load static %}
 
 {% block head %}
+<link rel="stylesheet" href="{% static 'styles/home.css' %}">
+
 
 {% endblock %}
 
 {% block content %}
-<div class="row"  style="display: inline-block;">
-
-    <!-- <button type="button" id='button' onclick="myFunction()">
-        Refresh
-    </button> -->
+<div class="row" style="display: inline-block;">
 
     <div class="tile_count">
         <div class="col-md-4 col-sm-4  tile_stats_count" style="width: 400px;">
@@ -34,27 +32,127 @@
 </div>
 <hr>
 
+<h3>What is Cleanse19?</h3>
+<p>
+    The widespread disease of COVID-19 has had deleterious effects on the lives of people worldwide. Such a pandemic has
+    devastating consequences if proper measures are not taken to save ourselves from the harmful disease that COVID has
+    become.
+    In about six months, innumerable people have become victims of the virus and it is the time of need to make sure
+    that people are taking care to save themselves from this disease. Preventive measures like maintaining a minimum
+    distance, use of face covers/masks, and frequent use of hand sanitizers is mandatory.
+    The aforementioned practices are imperative in the lives of people, especially now that people are travelling for
+    work and other jobs of the day.
+    <br><br>
+    To make sure these things are taken care of, we have come up with a solution to check whether the person is wearing
+    a mask or not,if the social distancing is maintained or not and counting the number of people present in the area.
+    The use of deep learning and computer vision
+    allows us to do so, where the main task of our project lies.
+</p>
+
+<p>
+<h5>Following models are included</h5>
+<li>Face mask detection:
+    The use of computer vision will allow us to recognize if the people in observation are wearing their face masks.
+    This being the most crucial measure, violation of this will result in sending warnings to the admin.</li><br>
+<li>Social Distancing: Making sure that social distancing is practiced by all the people in any infrastructure such as
+    a company, or a
+    university. This will send notifications and warnings to the managers if social distancing rules and regulations
+    are being violated frequently.</li><br>
+<li>Crowd Counting: The crowd counting model checks and returns the number of people in any building where the
+    manager can set a
+    threshold for the maximum number of people currently in the building. If the number exceeds, a warning is sent
+    to the manager and it is the responsibility of the manager to take measures to bring the number under control.</li>
+<br>
+</p>
+<hr>
+
+
+<h3>Instructions to set crowd count.</h3>
+<div class="form-box">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="ip-address-box">
+            <label>Set count for crowd:</label><br>
+            <input type="text" name="max_count" id="max_count" required="True">
+        </div>
+        <input type="submit" class="start" value="Set"><br>
+    </form>
+</div>
+<hr>
+
+
 <h3>Instructions to connect to camera.</h3>
 
+<button class="collapsible">Face Mask Detection</button>
+<div class="content">
+    <p>The face mask detection module checks for the people who are not wearing the face mask properly and reports the
+        same to the admin. Taking the live camera feed, the deep learning model will count the number of people who are
+        not wearing a face mask or not wearing the mask in a proper manner which is shown to the admin on the
+        application. The count on the admin dashboard will be updated on a real time basis in order to maintain the
+        accuracy of the present situation for the admin.</p>
+</div>
+
+<button class="collapsible">Social Distancing</button>
+<div class="content">
+    <p>This module checks whether the distance between any two people is greater than the minimum distance set by the
+        model. The module checks on a live feed recorded by the camera installed and the deep learning model behind
+        checks for the distance between the people. Any anomaly in the feed can be seen by the system admin on the
+        application. He can then take the measures accordingly in order to keep everyone safe.</p>
+</div>
+
+<button class="collapsible">Crowd Counting</button>
+<div class="content">
+    <p>This module will be counting the number of people currently present in a given area. The camera installed will
+        capture the live feed of the area and will send it for analysis, from where a real-time count will be obtained
+        which will be shown to the system admin through an application. The system admin can also set a threshold value
+        for the number of people in the area. The system will then send an alert or a notification if the count exceeds
+        the threshold value. The count will be updated on a real-time basis with counting of every person either
+        entering or exiting the premises</p>
+</div>
+<br>
+<p>Implementation of all the methods proposed in this system will help lead a safe life in various areas and the
+    implications of the system are long lasting.
+<br>
+    Corona is not leaving us anytime soon, and all we can do is try to take preventive measures in order to protect us.
+    This system does the same thing on a larger scale. It requires no human supervisor to check or keep track of the
+    measures thereby making it an independent and a truly contact-less system. Taking steps to check the disease is a
+    necessary effort to be taken and thus the social implications of this project are also widespread.
+</p>
+<br><br>
 <script type="text/javascript">
     document.getElementById("button").onclick = function () { myFunction() }
     function myFunction() {
-        
+
         var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 200) {
-              //console.log(this.responseText)
-              values=JSON.parse(this.responseText)
-              console.log(values.violations_face)
-              $('#face').contents()[0].textContent = values.violations_face;
-              $('#social').contents()[0].textContent = values.violations_social;
-              $('#crowd').contents()[0].textContent = values.people_count;
-            
-          }
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                //console.log(this.responseText)
+                values = JSON.parse(this.responseText)
+                console.log(values.violations_face)
+                $('#face').contents()[0].textContent = values.violations_face;
+                $('#social').contents()[0].textContent = values.violations_social;
+                $('#crowd').contents()[0].textContent = values.people_count;
+
+            }
         };
         xhttp.open("GET", "/update_home", true);
         xhttp.send();
-      }
-      setInterval(myFunction,3000);
+    }
+    setInterval(myFunction, 3000);
+
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+    }
 </script>
 {% endblock %}

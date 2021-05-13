@@ -11,11 +11,11 @@
 <hr>
 
 {% if crowd.0.is_recording %}
-    <img src="{% url 'crowd_counting' %}" style="display: none;">
+<img src="{% url 'crowd_counting' %}" style="display: none;">
 {% endif %}
 
 {% if face.0.is_recording %}
-    <img src="{% url 'face_mask_detection' %}" style="display: none;">
+<img src="{% url 'face_mask_detection' %}" style="display: none;">
 {% endif %}
 
 {% if social.0.is_recording != 1 %}
@@ -41,8 +41,38 @@
                 {% csrf_token %}
                 <input type="submit" class="stop" value="Stop Recording">
             </form>
+
+            <div class="row" style="display: inline-block;">
+                <div class="tile_count">
+                    <div class="col-md-8 col-sm-4  tile_stats_count" style="width: 400px;">
+                        <span class="count_top"><i class="fa fa-arrows"></i> Social Distancing</span>
+                        <div class="count green" id='social'>0</div>
+                        <span class="count_bottom">violations</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
 {% endif %}
+<script type="text/javascript">
+    document.getElementById("button").onclick = function () { myFunction() }
+    function myFunction() {
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                //console.log(this.responseText)
+                values = JSON.parse(this.responseText)
+
+                $('#social').contents()[0].textContent = values.violations_social;
+
+            }
+        };
+        xhttp.open("GET", "/update_home", true);
+        xhttp.send();
+    }
+    setInterval(myFunction, 500);
+</script>
 {% endblock %}
