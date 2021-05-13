@@ -246,7 +246,7 @@ class CrowdCounting(object):
             cv2.putText(frame, text, (10, H - ((i * 20) + 20)), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
 
         if Crowd_counting.objects.filter(user= request.user.id).exists():
-            Crowd_counting.objects.filter(user= request.user.id).update(people_count= 15)
+            Crowd_counting.objects.filter(user= request.user.id).update(people_count= people_inside)
         else:
             user = authUser.objects.get(id= request.user.id)       
             crowd = Crowd_counting.objects.create(
