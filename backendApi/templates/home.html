@@ -69,7 +69,7 @@
 
 <h3>Instructions to set crowd count.</h3>
 <div class="form-box">
-    <form action="" method="POST">
+    <form action="{% url 'update_max_count' %}" method="POST">
         {% csrf_token %}
         <div class="ip-address-box">
             <label>Set count for crowd:</label><br>

@@ -399,11 +399,11 @@ def analysis(request):
                 people[i.timestamp.strftime("%x")] = [
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                 people[i.timestamp.strftime('%x')][int(
-                    i.timestamp.strftime('%H'))] = i.violations
+                    i.timestamp.strftime('%H'))] = i.count
                 people_dates.append(i.timestamp.strftime("%x"))
             else:
-                if i.violations > people[i.timestamp.strftime('%x')][int(i.timestamp.strftime('%H'))]:
-                    people[i.timestamp.strftime("%x")][int(i.timestamp.strftime('%H'))] = i.violations
+                if i.count > people[i.timestamp.strftime('%x')][int(i.timestamp.strftime('%H'))]:
+                    people[i.timestamp.strftime("%x")][int(i.timestamp.strftime('%H'))] = i.count
         
         print(face)
         # return render(request, 'analysis.html', {'face': face, 'social': social, 'people': people})
@@ -419,6 +419,7 @@ def aboutUsView(request):
 def crowd_max_count(request):
     if request.method == 'POST':
         if request.POST['max_count'] != 0:
+            # print(request.POST['max_count'])
             Crowd_counting.objects.filter(user= request.user.id).update(max_count= request.POST['max_count'])
 
             return redirect('/home')
