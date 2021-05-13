@@ -1,21 +1,24 @@
 import os
+import time
 import urllib.request
 
 import cv2
+from django.core.checks import messages
+import dlib
+import imutils
 import numpy as np
+import datetime
 from django.conf import settings
 from django.contrib.auth.models import User as authUser
-from imutils.video import VideoStream
-from imutils.video import FPS 
-import imutils
-import time
-import dlib
+from django.utils.timezone import make_aware
+from django.core.mail import send_mail
+from imutils.video import FPS, VideoStream
 
 from .centroidtracker import *
-from .trackableobject import *
-from .models import *
-from .detection import *
 from .config import *
+from .detection import *
+from .models import *
+from .trackableobject import *
 
 
 class FaceMaskDetection(object):
@@ -98,6 +101,20 @@ class FaceMaskDetection(object):
                 violations= count
             )                
             face.save()
+
+
+        max_count = Crowd_counting.objects.filter(user= request.user.id)[0].max_count
+        max_face_violations = int(max_count/10)
+
+        if count > max_face_violations:
+            last_mail_time = Face_mask.objects.filter(user= request.user.id)[0].last_mail_time
+            if last_mail_time + datetime.timedelta(minutes=15) < make_aware(datetime.datetime.now()):
+                message = 'Face Mask Violations are increasing! Please take the necessary actions.\nCurrent count of people not wearing mask properly: {}'.format(count)
+                email_from = settings.EMAIL_HOST_USER
+                subject = 'People not wearing masks properly!'
+                recipient_list = [request.user.email]
+                send_mail(subject, message, email_from, recipient_list)
+
 
         self.counter += 1
         if self.counter == 10:
@@ -229,7 +246,7 @@ class CrowdCounting(object):
             cv2.putText(frame, text, (10, H - ((i * 20) + 20)), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
 
         if Crowd_counting.objects.filter(user= request.user.id).exists():
-            Crowd_counting.objects.filter(user= request.user.id).update(people_count= people_inside)
+            Crowd_counting.objects.filter(user= request.user.id).update(people_count= 15)
         else:
             user = authUser.objects.get(id= request.user.id)       
             crowd = Crowd_counting.objects.create(
@@ -238,11 +255,25 @@ class CrowdCounting(object):
             )                
             crowd.save()
 
+        max_count_tuple = Crowd_counting.objects.filter(user= request.user.id)
+        max_count = max_count_tuple[0].max_count
+
+        if max_count != 0:
+            if  people_inside > max_count:
+                last_mail_time = Crowd_counting.objects.filter(user= request.user.id)[0].last_mail_time    
+                if last_mail_time + datetime.timedelta(minutes= 15) < make_aware(datetime.datetime.now()):
+                    message = 'The max_count has been exceeded. Please take the required actions.\nCurrent Count: {count}'.format(count= people_inside)
+                    email_from = settings.EMAIL_HOST_USER
+                    subject = 'Maximum Count has been exceeded!'
+                    recipient_list = [request.user.email]
+                    send_mail(subject, message, email_from, recipient_list)
+                    Crowd_counting.objects.filter(user= request.user.id).update(last_mail_time= make_aware(datetime.datetime.now()))
+
         self.counter += 1
         if self.counter == 10:
             CrowdCountingAnalysis.objects.create(
                 user= authUser.objects.get(id= request.user.id),
-                violations= count
+                count= people_inside
             ).save()
             self.counter = 0
              
@@ -306,11 +337,23 @@ class SocialDistancing(object):
             Social_distancing.objects.filter(user= request.user.id).update(violations= len(violate))
         else:
             user = authUser.objects.get(id= request.user.id)       
-            crowd = Social_distancing.objects.create(
+            social = Social_distancing.objects.create(
                 user= user,
                 violations= len(violate)
             )                
-            crowd.save()
+            social.save()
+
+        max_count = Crowd_counting.objects.filter(user= request.user.id)[0].max_count
+        max_social_violations = int(max_count/10)
+
+        if len(violate) > max_social_violations:
+            last_mail_time = Social_distancing.objects.filter(user= request.user.id)[0].last_mail_time
+            if last_mail_time + datetime.timedelta(minutes=15) < make_aware(datetime.datetime.now()):
+                message = 'Social Distancing Violations are increasing! Please take the necessary actions.\nCurrent violations: {}'.format(len(violate))
+                email_from = settings.EMAIL_HOST_USER
+                subject = 'People are getting closer!'
+                recipient_list = [request.user.email]
+                send_mail(subject, message, email_from, recipient_list)
 
         self.counter += 1
         if self.counter == 10:

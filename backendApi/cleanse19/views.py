@@ -341,7 +341,7 @@ def help(request):
 def send_email(request):
     u = User.objects.get(id=request.user.id)
     if request.method == 'POST':
-        u = User.objects.get(id=request.user.id)
+        u = authUser.objects.get(id=request.user.id)
         message = request.POST['message']
         email_from = settings.EMAIL_HOST_USER
         subject = u.email
@@ -414,3 +414,11 @@ def analysis(request):
 def aboutUsView(request):
     user = user_data(request)
     return render(request, 'aboutus.html', user)
+
+@login_required(login_url= '/')
+def crowd_max_count(request):
+    if request.method == 'POST':
+        if request.POST['max_count'] != 0:
+            Crowd_counting.objects.filter(user= request.user.id).update(max_count= request.POST['max_count'])
+
+            return redirect('/home')

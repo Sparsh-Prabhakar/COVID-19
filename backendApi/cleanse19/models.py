@@ -12,16 +12,20 @@ class Face_mask(models.Model):
     user = models.ForeignKey(authUser, on_delete= models.CASCADE, default=None)
     violations = models.IntegerField()
     timestamp =  models.DateTimeField(auto_now_add=True)
+    last_mail_time = models.DateTimeField(auto_now_add= True) 
     
 class Crowd_counting(models.Model):
     user = models.ForeignKey(authUser, on_delete= models.CASCADE, default=None)
     people_count = models.IntegerField()
     timestamp =  models.DateTimeField(auto_now_add=True)
+    max_count = models.IntegerField(default= 0)
+    last_mail_time = models.DateTimeField(auto_now_add= True) 
 
 class Social_distancing(models.Model):
     user = models.ForeignKey(authUser, on_delete=models.CASCADE)
     violations = models.IntegerField()
     timestamp = models.DateTimeField(auto_now_add= True)
+    last_mail_time = models.DateTimeField(auto_now_add= True) 
 
 class Recording(models.Model):
     user = models.ForeignKey(authUser, on_delete= models.CASCADE)

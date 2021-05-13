@@ -28,4 +28,5 @@ urlpatterns = [
     path('getPeopleCount/', views.getPeopleCount, name= 'get_people_count'),
     path('getSocialDistancingViolationsCount/', views.getSocialDistancingViolationsCount, name='get_social_distancing_violations_count'),
     path('aboutUs/', views.aboutUsView, name='about_us_view'),
+    path('updateMaxCount/', views.crowd_max_count, name= 'update_max_count'),
 ]
