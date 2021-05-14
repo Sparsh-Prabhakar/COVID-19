@@ -6,19 +6,17 @@
 <link rel="stylesheet" href="{% static 'styles/analysis.css' %}">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js"></script>
 <style>
-    .faceDropdownButton {
-        background-color: #2A3F54;
-        color: white;
-        margin-bottom: 2%;
+    .faceDropdownButton, .socialDropdownButton, .crowdDropdownButton {
+    background-color: #2A3F54;
+    color: white;
+    margin-bottom: 2%;
     }
 
-    .faceDropdownButton:hover {
+    .faceDropdownButton:hover, .socialDropdownButton:hover, .crowdDropdownButton:hover {
         color: white;
     }
 
-    #faceLatest,
-    #faceLastWeek,
-    #faceLastMonth {
+    #faceLatest, #faceLastWeek, #faceLastMonth, #socialLatest, #socialLastWeek, #socialLastMonth, #crowdLatest, #crowdLastWeek, #crowdLastMonth {
         position: relative;
         width: 700px;
         margin-left: 4%;
@@ -32,21 +30,21 @@
 
 <!-- Navbar -->
 <div class="barnav">
-    <button class="tablinks" onclick="openTab(event, 'Face'); getFaceLatestChart();"><i class="fa fa-user"></i> Face
+    <button class="tablinks" onclick="openTab(event, 'Face'); faceHideAll();"><i class="fa fa-user"></i> Face
         Mask Detection</button>
-    <button class="tablinks" onclick="openTab(event, 'Social'); getFaceLastWeekChart();"><i class="fa fa-arrows"></i>
+    <button class="tablinks" onclick="openTab(event, 'Social'); socialHideAll();"><i class="fa fa-arrows"></i>
         Social Distancing</button>
-    <button class="tablinks" onclick="openTab(event, 'Crowd'); getFaceLastMonthChart();"><i class="fa fa-users"></i>
+    <button class="tablinks" onclick="openTab(event, 'Crowd'); crowdHideAll();"><i class="fa fa-users"></i>
         Crowd Counting</button>
 </div>
 
 <!-- Face Mask Detection -->
 <div id="Face" class="tabcontent">
-    <select id="faceDropdown" class="btn faceDropdownButton" onChange="faceShowHide()">
-        <option value="A" class="faceDropdownOption">Today</option>
-        <option value="B" class="faceDropdownOption">Last Week</option>
-        <option value="C" class="faceDropdownOption">Last Month</option>
-        <!-- <option value="D" class="faceDropdownOption">Last Year</option> -->
+    <select id="faceDropdown" class="btn faceDropdownButton" onchange="faceShowHide();">
+        <option value="" class="faceDropdownOption">Select option</option>
+        <option value="A" class="faceDropdownOption" onclick="getFaceLatestChart();">Today</option>
+        <option value="B" class="faceDropdownOption" onclick="getFaceLastWeekChart();">Last Week</option>
+        <option value="C" class="faceDropdownOption" onclick="getFaceLastMonthChart();">Last Month</option>
     </select>
 
     <!-- Latest Count -->
@@ -56,48 +54,363 @@
     </div>
 
     <!-- Last Week Count -->
-    <div style="position: relative; width:700px;" id="faceLastWeek">
+    <div id="faceLastWeek">
         <h5 id="faceLastWeekDate" style="margin-bottom: 2%;"></h5>
-        <canvas id="faceLastWeekChart_DateWise"></canvas>
-        <canvas id="faceLastWeekChart_TimeWise"></canvas>
+        <canvas id="faceLastWeekChart"></canvas>
     </div>
 
     <!-- Last Month Count -->
-    <div style="position: relative; width:700px;" id="faceLastMonth">
+    <div id="faceLastMonth">
         <h5 id="faceLastMonthDate" style="margin-bottom: 2%;"></h5>
         <canvas id="faceLastMonthChart"></canvas>
     </div>
-
-
 </div>
 
 <!-- Social Distancing -->
 <div id="Social" class="tabcontent">
-    <h5>Today's Violation Count</h5>
-    <!-- <p>{{ social }}</p> -->
+    <select id="socialDropdown" class="btn socialDropdownButton" onchange="socialShowHide();">
+        <option value="" class="socialDropdownOption">Select option</option>
+        <option value="A" class="socialDropdownOption" onclick="getSocialLatestChart();">Today</option>
+        <option value="B" class="socialDropdownOption" onclick="getSocialLastWeekChart();">Last Week</option>
+        <option value="C" class="socialDropdownOption" onclick="getSocialLastMonthChart();">Last Month</option>
+    </select>
+
+    <!-- Latest Count -->
+    <div id="socialLatest">
+        <h5 id="socialLatestDate" style="margin-bottom: 2%;"></h5>
+        <canvas id="socialLatestChart"></canvas>
+    </div>
+
+    <!-- Last Week Count -->
+    <div style="position: relative; width:700px;" id="socialLastWeek">
+        <h5 id="socialLastWeekDate" style="margin-bottom: 2%;"></h5>
+        <canvas id="socialLastWeekChart"></canvas>
+    </div>
+
+    <!-- Last Month Count -->
+    <div style="position: relative; width:700px;" id="socialLastMonth">
+        <h5 id="socialLastMonthDate" style="margin-bottom: 2%;"></h5>
+        <canvas id="socialLastMonthChart"></canvas>
+    </div>
 </div>
 
 <!-- Crowd Counting -->
 <div id="Crowd" class="tabcontent">
-    <h5>Today's Violation Count</h5>
-    <!-- <p>{{ people }}</p> -->
+    <select id="crowdDropdown" class="btn crowdDropdownButton" onchange="crowdShowHide();">
+        <option value="" class="crowdDropdownOption">Select option</option>
+        <option value="A" class="crowdDropdownOption" onclick="getCrowdLatestChart();">Today</option>
+        <option value="B" class="crowdDropdownOption" onclick="getCrowdLastWeekChart();">Last Week</option>
+        <option value="C" class="crowdDropdownOption" onclick="getCrowdLastMonthChart();">Last Month</option>
+    </select>
+
+    <!-- Latest Count -->
+    <div id="crowdLatest">
+        <h5 id="crowdLatestDate" style="margin-bottom: 2%;"></h5>
+        <canvas id="crowdLatestChart"></canvas>
+    </div>
+
+    <!-- Last Week Count -->
+    <div id="crowdLastWeek">
+        <h5 id="crowdLastWeekDate" style="margin-bottom: 2%;"></h5>
+        <canvas id="crowdLastWeekChart"></canvas>
+    </div>
+
+    <!-- Last Month Count -->
+    <div id="crowdLastMonth">
+        <h5 id="crowdLastMonthDate" style="margin-bottom: 2%;"></h5>
+        <canvas id="crowdLastMonthChart"></canvas>
+    </div>
+
 </div>
 
 <!-- Opening Tabs JS -->
 <script src="{% static 'js/analysis.js' %}"></script>
 
-<!-- Face Mask Detection Dropdown -->
-<script src="{% static 'js/face-mask-dropdown.js'%}"></script>
-
 <!-- Face Mask Detection Chart -->
-<script src="{% static 'charts/face-mask-chart.js'%}"></script>
+<script src="{% static 'js/face-mask-dropdown.js'%}"></script>
+<!-- <script src="{% static 'charts/face-mask-chart.js'%}"></script> -->
+<script>
+    /// LATEST FACE CHART ///
+    function getFaceLatestChart() {
+        // Get Data
+        var xhttp = new XMLHttpRequest();
+        var key_list = [], value_list = []
+        var dateDate, dateMonth, dateYear;
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                response_data = JSON.parse(this.responseText)
+                face_data = response_data.face
 
+                for (key in face_data) {
+                    key_list.push(key)
+                    value_list.push(face_data[key])
+                }
+
+                // Get the latest Date
+                var dateObject = new Date(key_list[key_list.length - 1])
+                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+                dateDate = dateObject.getDate()
+                dateMonth = dateObject.getMonth()
+                dateYear = dateObject.getFullYear()
+
+                document.getElementById("faceLatestDate").innerHTML = monthNames[dateMonth] + " " + dateDate + ", " + dateYear;
+
+                // Chart
+                var labels = ["00:00-1:00", "1:00-2:00", "2:00-3:00", "3:00-4:00", "4:00-5:00", "5:00-6:00", "6:00-7:00",
+                    "7:00-8:00", "8:00-9:00", "9:00-10:00", "10:00-11:00", "11:00-12:00", "12:00-13:00", "13:00-14:00",
+                    "14:00-15:00", "15:00-16:00", "16:00-17:00", "17:00-18:00", "18:00-19:00", "19:00-20:00", "20:00-21:00",
+                    "21:00-22:00", "22:00-23:00", "23:00-00:00"];
+                var ctx = document.getElementById('faceLatestChart');
+                var faceLatestChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Violations',
+                            data: value_list[value_list.length - 1],
+                            backgroundColor: '#73879C',
+                            borderColor: '#2A3F54',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        scales: { y: { beginAtZero: true } },
+                    }
+                });
+            }
+        };
+        xhttp.open("GET", "/analysis", true);
+        xhttp.send();
+    }
+    setInterval(getFaceLatestChart, 15000);
+
+
+    /// LAST WEEK FACE CHART ///
+    function getFaceLastWeekChart() {
+        // Get Data
+        var xhttp = new XMLHttpRequest();
+        var key_list = [], value_list = []
+        var dateDate, dateMonth, dateYear
+        var weekDates = [], weekValues = []
+        // 7 days * 24 entries per day = 168 entries
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                response_data = JSON.parse(this.responseText)
+                face_data = response_data.face
+
+                for (key in face_data) {
+                    key_list.push(key)
+                    value_list.push(face_data[key])
+                }
+                // console.log(key_list)
+                // console.log(value_list)
+
+                // Get the latest date
+                var latest = new Date(key_list[key_list.length - 1]);
+                latestDate = latest.getDate()
+                latestMonth = latest.getMonth()
+                latestYear = latest.getFullYear()
+                latestHour = latest.getHours()
+                // console.log(latest)
+
+                var weekOld = new Date(latest)
+                weekOld.setDate(weekOld.getDate() - 6)
+                var weekOldFinal = new Date(latest)
+                weekOldFinal.setDate(weekOldFinal.getDate() - 6)
+
+                // Create week date list
+                var week = []
+                while (weekOld <= latest) {
+                    dateDate = new Date(weekOld).getDate()
+                    dateMonth = new Date(weekOld).getMonth()
+                    // dateYear = new Date(weekOld).getFullYear()
+                    week.push(monthNames[dateMonth] + " " + dateDate)
+                    for (i = 0; i < 23; i++) {
+                        week.push("")
+                    }
+
+                    weekDates.push(new Date(weekOld))
+                    weekOld.setDate(weekOld.getDate() + 1)
+                }
+                // console.log(week)
+                // console.log(weekDates)
+
+                // Create week values list
+                weekValues = new Array(168).fill(0)
+                for (value = 0; value < weekDates.length; value++) {
+                    valueDate = weekDates[value]
+                    for (i = 0; i < key_list.length; i++) {
+                        date = new Date(key_list[i])
+                        if (valueDate.getTime() == date.getTime()) {
+                            for (k = value * 24 - 1, counter = 0; k < value * 24 - 1 + 24; k++, counter++) {
+                                weekValues[k] = value_list[i][counter]
+                            }
+                        }
+                    }
+                }
+                // console.log(weekValues)
+
+                // Week label
+                document.getElementById("faceLastWeekDate").innerHTML =
+                    monthNames[weekOldFinal.getMonth()] + " " + weekOldFinal.getDate() + ", " + weekOldFinal.getFullYear() + " - " +
+                    monthNames[latest.getMonth()] + " " + latest.getDate() + ", " + latest.getFullYear();
+
+                // Chart
+                var labels = ["00:00-1:00", "1:00-2:00", "2:00-3:00", "3:00-4:00", "4:00-5:00", "5:00-6:00", "6:00-7:00",
+                    "7:00-8:00", "8:00-9:00", "9:00-10:00", "10:00-11:00", "11:00-12:00", "12:00-13:00", "13:00-14:00",
+                    "14:00-15:00", "15:00-16:00", "16:00-17:00", "17:00-18:00", "18:00-19:00", "19:00-20:00", "20:00-21:00",
+                    "21:00-22:00", "22:00-23:00", "23:00-00:00"];
+                var ctx = document.getElementById('faceLastWeekChart');
+                var faceLastWeekChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: week,
+                        datasets: [{
+                            label: 'Violations',
+                            data: weekValues,
+                            backgroundColor: '#73879C',
+                            borderColor: '#2A3F54',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        scales: { y: { beginAtZero: true } },
+                    }
+                });
+            }
+        };
+        xhttp.open("GET", "/analysis", true);
+        xhttp.send();
+    }
+    setInterval(getFaceLastWeekChart, 15000);
+
+
+    /// LAST MONTH FACE CHART ///
+    function getFaceLastMonthChart() {
+        // Get Data
+        var xhttp = new XMLHttpRequest();
+        var key_list = [], value_list = []
+        var dateDate, dateMonth, dateYear
+        var monthDates = [], monthValues = []
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                response_data = JSON.parse(this.responseText)
+                face_data = response_data.face
+
+                for (key in face_data) {
+                    key_list.push(key)
+                    value_list.push(face_data[key])
+                }
+                // console.log(key_list)
+                // console.log(value_list)
+
+                // Get the latest date
+                var latest = new Date(key_list[key_list.length - 1]);
+                latestDate = latest.getDate()
+                latestMonth = latest.getMonth()
+                latestYear = latest.getFullYear()
+                // console.log(latest)
+
+                var monthOld = new Date(latest)
+                monthOld.setDate(monthOld.getDate() - 29)
+                var monthOldFinal = new Date(latest)
+                monthOldFinal.setDate(monthOldFinal.getDate() - 29)
+
+                // Create month date list
+                var month = []
+                while (monthOld <= latest) {
+                    dateDate = new Date(monthOld).getDate()
+                    dateMonth = new Date(monthOld).getMonth()
+                    // dateYear = new Date(monthOld).getFullYear()
+                    month.push(monthNames[dateMonth] + " " + dateDate)
+                    for (i = 0; i < 23; i++) {
+                        month.push("")
+                    }
+
+                    monthDates.push(new Date(monthOld))
+                    monthOld.setDate(monthOld.getDate() + 1)
+                }
+                // console.log(month)
+                // console.log(monthDates)
+
+                // Create month values list
+                monthValues = new Array(720).fill(0)
+                for (value = 0; value < monthDates.length; value++) {
+                    valueDate = monthDates[value]
+                    for (i = 0; i < key_list.length; i++) {
+                        date = new Date(key_list[i])
+                        if (valueDate.getTime() == date.getTime()) {
+                            for (k = value * 24 - 1, counter = 0; k < value * 24 - 1 + 24; k++, counter++) {
+                                monthValues[k] = value_list[i][counter]
+                            }
+                        }
+                    }
+                }
+
+                // for (i = 0; i < key_list.length; i++) {
+                //     date = new Date(key_list[i])
+                //     for (value = 0; value < week.length; value++) {
+                //         valueDate = new Date(week[value])
+                //         if (date.getDate() == valueDate.getDate()) {
+                //             weekValues[value] = value_list[i]
+                //         } else {
+                //             weekValues[value] = 0
+                //         }
+                //     }
+                // }
+                // console.log(weekValues)
+
+                // for (i = latestDate - 6; i <= latestDate; i++) {
+                //     for (count = 0; count < key_list.length; count++) {
+                //         dateDate = new Date(key_list[count]).getDate()
+                //         dateMonth = new Date(key_list[count]).getMonth()
+                //         dateYear = new Date(key_list[count]).getFullYear()
+                //         if (dateYear == latestYear && dateMonth == latestMonth && dateDate == i) {
+                //             weekDates.push(key_list[count])
+                //             weekValues.push(value_list[count])
+                //         }
+                //     }
+                // }
+
+                // Month label
+                document.getElementById("faceLastMonthDate").innerHTML =
+                    monthNames[monthOldFinal.getMonth()] + " " + monthOldFinal.getDate() + ", " + monthOldFinal.getFullYear() + " - " +
+                    monthNames[latest.getMonth()] + " " + latest.getDate() + ", " + latest.getFullYear();
+
+                // Chart
+                var ctx = document.getElementById('faceLastMonthChart');
+                var faceLastMonthChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: month,
+                        datasets: [{
+                            label: 'Violations',
+                            data: monthValues,
+                            backgroundColor: '#73879C',
+                            borderColor: '#2A3F54',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: { scales: { y: { beginAtZero: true } } }
+                });
+            }
+        };
+        xhttp.open("GET", "/analysis", true);
+        xhttp.send();
+    }
+    setInterval(getFaceLastMonthChart, 15000);
+</script>
 
 <!-- Social Distancing Chart -->
-<!-- <script src="{% static 'charts/social-distance-chart.js'%}"></script> -->
+<script src="{% static 'js/social-distance-dropdown.js'%}"></script>
+<script src="{% static 'charts/social-distance-chart.js'%}"></script>
 
 <!-- Crowd Counting Chart -->
-<!-- <script src="{% static 'charts/crowd-count-chart.js'%}"></script> -->
+<script src="{% static 'js/crowd-count-dropdown.js'%}"></script>
+<script src="{% static 'charts/crowd-count-chart.js'%}"></script>
 
 
 {% endblock %}

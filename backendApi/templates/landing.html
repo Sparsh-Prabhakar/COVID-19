@@ -6,7 +6,85 @@
 
 	<head>
 		<title>Cleanse 19</title>
-		<link rel="stylesheet" href="{% static 'styles/landing.css' %}">
+		<!-- <link rel="stylesheet" href="{% static 'styles/landing.css' %}"> -->
+		<style>
+			.bg {
+				/* background-image: url("../img/bg_image.jpg"); */
+				background-image: url("../static/img/bg_image.jpg");
+				background-position: center;
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-size: 100%;
+			}
+
+			.title {
+				color: #423C38;
+				text-align: center;
+				letter-spacing: 3px;
+				font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+				font-size: 80;
+				margin: auto;
+				margin-top: 7%;
+				transform: scale(1, 1.75);
+				-webkit-transform: scale(1, 1.5);
+				/* Safari and Chrome */
+				-moz-transform: scale(1, 1.5);
+				/* Firefox */
+				-ms-transform: scale(1, 1.5);
+				/* IE 9+ */
+				-o-transform: scale(1, 1.5);
+				/* Opera */
+			}
+
+			.subtitle {
+				color: #423C38;
+				text-align: center;
+				font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+				font-size: 18;
+				margin: auto;
+				margin-top: 3%;
+			}
+
+			.login_button {
+				display: block;
+				width: fit-content;
+				height: fit-content;
+				margin: auto;
+				margin-top: 14%;
+				background-color: #423C38;
+				padding: 10px;
+				text-align: center;
+				border-radius: 5px;
+				color: #C0BDB8;
+				transition: 0.4s;
+				font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+				font-size: 22;
+				text-decoration: none;
+			}
+
+			.login_button:hover {
+				background-color: #C4BCBA;
+				color: #423C38;
+			}
+
+			.logged-in {
+				margin-top: 8%;
+				text-align: center;
+			}
+
+			.logged-in p {
+				color: #423C38;
+				font-weight: bold;
+			}
+
+			.logged-in a {
+				color: #A82825;
+			}
+			
+			.logged-in a:hover {
+				color: #03A4C1;
+			}
+		</style>
 	</head>
 
 	<body class="bg">
@@ -15,8 +93,8 @@
 
 		{% if user.is_authenticated %}
 		<div class="logged-in">
-			<p>You are logged in as {{ user.username }}</p>
-			<a href="/logout">Logout</a>
+			<p>You are logged in as {{ user.username }}.</p>
+			<a href="/logout">Logout</a>&nbsp;&nbsp;&nbsp;
 			<a href="/home">Go to Home Page</a>
 		</div>
 		{% else %}
