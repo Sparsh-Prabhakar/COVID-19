@@ -66,21 +66,6 @@
 </p>
 <hr>
 
-
-<h3>Instructions to set crowd count.</h3>
-<div class="form-box">
-    <form action="{% url 'update_max_count' %}" method="POST">
-        {% csrf_token %}
-        <div class="ip-address-box">
-            <label>Set count for crowd:</label><br>
-            <input type="text" name="max_count" id="max_count" required="True">
-        </div>
-        <input type="submit" class="start" value="Set"><br>
-    </form>
-</div>
-<hr>
-
-
 <h3>Instructions to connect to camera.</h3>
 
 <button class="collapsible tab">Face Mask Detection</button>
@@ -90,6 +75,8 @@
         not wearing a face mask or not wearing the mask in a proper manner which is shown to the admin on the
         application. The count on the admin dashboard will be updated on a real time basis in order to maintain the
         accuracy of the present situation for the admin.</p>
+    <p><em>Connecting to camera:</em>&nbsp;&nbsp;To start the detection, you need a webcam which can be connected to a
+        network and the IP address of the webcam has to be provided to the model.</p>
 </div>
 
 <button class="collapsible tab">Social Distancing</button>
@@ -98,6 +85,9 @@
         model. The module checks on a live feed recorded by the camera installed and the deep learning model behind
         checks for the distance between the people. Any anomaly in the feed can be seen by the system admin on the
         application. He can then take the measures accordingly in order to keep everyone safe.</p>
+    <p><em>Connecting to camera:</em>&nbsp;&nbsp;The user has to connect the system to a webcam by providing the IP
+        address. Once connected, the user can see the live feed in the system along with the current number of
+        violations.</p>
 </div>
 
 <button class="collapsible tab">Crowd Counting</button>
@@ -108,8 +98,35 @@
         for the number of people in the area. The system will then send an alert or a notification if the count exceeds
         the threshold value. The count will be updated on a real-time basis with counting of every person either
         entering or exiting the premises</p>
+    <p><em>Connecting to camera:</em>&nbsp;&nbsp;Similar to the other modules, the user has to connect a webcam via an
+        IP address. Additionally note that, the camera has to be set at a bird eye view's angle in order to make sure
+        a whole range of crowd is visible to the system.</p>
+</div>
+<hr>
+
+<h3>Instructions to set crowd count.</h3>
+<div>
+    <p>Once the webcam is connected, you will be able to see the live feed on the system along with the current
+        count of the people inside your organization. Below this instruction, you are provided a box that allows you
+        to set the maximum number of people that will be allowed to be inside your ogranization at a particular time.
+        <br /><br />
+        <em>Enter a value below to get started.</em>
+    </p>
+</div>
+
+<div class="form-box">
+    <form action="{% url 'update_max_count' %}" method="POST">
+        {% csrf_token %}
+        <div class="ip-address-box">
+            <label>Set count for crowd:</label><br>
+            <input type="text" name="max_count" id="max_count" required="True">
+        </div>
+        <input type="submit" class="start" value="Set"><br>
+    </form>
 </div>
 <br>
+
+<hr />
 <p class="info">
     Implementation of all the methods proposed in this system will help lead a safe life in various areas and the
     implications of the system are long lasting.<br>
@@ -118,7 +135,12 @@
     measures thereby making it an independent and a truly contact-less system. Taking steps to check the disease is a
     necessary effort to be taken and thus the social implications of this project are also widespread.
 </p>
-<br><br>
+<br />
+
+
+
+
+
 <script type="text/javascript">
     document.getElementById("button").onclick = function () { myFunction() }
     function myFunction() {
