@@ -10,7 +10,6 @@ from django.contrib import messages
 
 from .camera import *
 from .models import *
-from .serializers import *
 
 from django.conf import settings
 from django.core.mail import send_mail
