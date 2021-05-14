@@ -16,8 +16,6 @@ from django.core.mail import send_mail
 import json
 
 # Create your views here.
-
-
 @login_required(login_url='/')
 def getPeopleCount(request):
     if request.method == 'GET':
