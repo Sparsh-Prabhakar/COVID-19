@@ -7,7 +7,7 @@ classes = []
 with open("classes.txt", "r") as f:
     classes = f.read().splitlines()
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture('/home/sparsh/COVID-19/face/video.mp4')
 font = cv2.FONT_HERSHEY_PLAIN
 colors = np.random.uniform(0, 255, size=(100, 3))
 
