@@ -5,6 +5,25 @@
 <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
 <link rel="stylesheet" href="{% static 'styles/analysis.css' %}">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js"></script>
+<style>
+    .faceDropdownButton {
+        background-color: #2A3F54;
+        color: white;
+        margin-bottom: 2%;
+    }
+
+    .faceDropdownButton:hover {
+        color: white;
+    }
+
+    #faceLatest,
+    #faceLastWeek,
+    #faceLastMonth {
+        position: relative;
+        width: 700px;
+        margin-left: 4%;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -13,20 +32,43 @@
 
 <!-- Navbar -->
 <div class="barnav">
-    <button class="tablinks" onclick="openTab(event, 'Face'); getFaceChart();"><i class="fa fa-user"></i> Face Mask
-        Detection</button>
-    <button class="tablinks" onclick="openTab(event, 'Social')"><i class="fa fa-arrows"></i> Social
-        Distancing</button>
-    <button class="tablinks" onclick="openTab(event, 'Crowd')"><i class="fa fa-users"></i> Crowd
-        Counting</button>
+    <button class="tablinks" onclick="openTab(event, 'Face'); getFaceLatestChart();"><i class="fa fa-user"></i> Face
+        Mask Detection</button>
+    <button class="tablinks" onclick="openTab(event, 'Social'); getFaceLastWeekChart();"><i class="fa fa-arrows"></i>
+        Social Distancing</button>
+    <button class="tablinks" onclick="openTab(event, 'Crowd'); getFaceLastMonthChart();"><i class="fa fa-users"></i>
+        Crowd Counting</button>
 </div>
 
 <!-- Face Mask Detection -->
 <div id="Face" class="tabcontent">
-    <h5>Today's Violation Count</h5>
-    <div style="position: relative; width:700px;">
-        <canvas id="faceChart"></canvas>
+    <select id="faceDropdown" class="btn faceDropdownButton" onChange="faceShowHide()">
+        <option value="A" class="faceDropdownOption">Today</option>
+        <option value="B" class="faceDropdownOption">Last Week</option>
+        <option value="C" class="faceDropdownOption">Last Month</option>
+        <!-- <option value="D" class="faceDropdownOption">Last Year</option> -->
+    </select>
+
+    <!-- Latest Count -->
+    <div id="faceLatest">
+        <h5 id="faceLatestDate" style="margin-bottom: 2%;"></h5>
+        <canvas id="faceLatestChart"></canvas>
     </div>
+
+    <!-- Last Week Count -->
+    <div style="position: relative; width:700px;" id="faceLastWeek">
+        <h5 id="faceLastWeekDate" style="margin-bottom: 2%;"></h5>
+        <canvas id="faceLastWeekChart_DateWise"></canvas>
+        <canvas id="faceLastWeekChart_TimeWise"></canvas>
+    </div>
+
+    <!-- Last Month Count -->
+    <div style="position: relative; width:700px;" id="faceLastMonth">
+        <h5 id="faceLastMonthDate" style="margin-bottom: 2%;"></h5>
+        <canvas id="faceLastMonthChart"></canvas>
+    </div>
+
+
 </div>
 
 <!-- Social Distancing -->
@@ -44,14 +86,18 @@
 <!-- Opening Tabs JS -->
 <script src="{% static 'js/analysis.js' %}"></script>
 
+<!-- Face Mask Detection Dropdown -->
+<script src="{% static 'js/face-mask-dropdown.js'%}"></script>
+
 <!-- Face Mask Detection Chart -->
 <script src="{% static 'charts/face-mask-chart.js'%}"></script>
 
+
 <!-- Social Distancing Chart -->
-<script src="{% static 'charts/social-distance-chart.js'%}"></script>
+<!-- <script src="{% static 'charts/social-distance-chart.js'%}"></script> -->
 
 <!-- Crowd Counting Chart -->
-<script src="{% static 'charts/crowd-count-chart.js'%}"></script>
+<!-- <script src="{% static 'charts/crowd-count-chart.js'%}"></script> -->
 
 
 {% endblock %}
