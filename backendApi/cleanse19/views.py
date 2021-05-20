@@ -28,7 +28,7 @@ def getFaceMaskViolationsCount(request):
     if request.method == 'GET':
         violations = Face_mask.objects.get(user=request.user.id)
         print(violations.violations)
-        return Json.dump({'results': violations.violations, 'temp': 1}, safe=False)
+        return JsonResponse(violations)
 
 
 @login_required(login_url='/')
@@ -199,7 +199,7 @@ def startRecordingCrowdCounting(request):
         print(ip)
         if IP_address.objects.filter(user=request.user.id, name='crowd_counting').exists():
             IP_address.objects.filter(
-                user=request.user.id, name='crowd_couting').update(ip_address=ip)
+                user=request.user.id, name='crowd_counting').update(ip_address=ip)
         else:
             IP_address.objects.create(
                 user=authUser.objects.get(id=request.user.id),
@@ -308,23 +308,26 @@ def profile_save(request):
         else:
             username = request.POST['username']
             if authUser.objects.filter(username=username).exists():
-                messages.info(request, 'Username already exists')
-                return redirect('profile')
+                #messages.info(request, 'Username already exists')
+                # return redirect('profile')
+                return render(request, 'profile.html', {'alert_flag': True})
 
         if request.POST['email'] == '' or request.POST['email'] == u.email:
             email = u.email
         else:
             email = request.POST['email']
             if authUser.objects.filter(email=email).exists():
-                messages.info(request, 'Email already exists')
-                return redirect('profile')
+                #messages.info(request, 'Email already exists')
+                return render(request, 'profile.html', {'alert_flag': True})
+                #return redirect('profile')
 
         u.first_name = first_name
         u.last_name = last_name
         u.username = username
         u.email = email
         u.save()
-        messages.info(request,'Saved changes!')
+        # messages.info(request,'Saved changes!')
+        
         return redirect('profile')
     # return render(request,'home.html')
 

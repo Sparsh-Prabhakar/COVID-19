@@ -30,20 +30,26 @@
             <label>Email ID</label>
         </div>
         <div>
-        <h4 style="font-size: 30px; color: orange;">
-            {% for message in messages %}
+            <h4 style="font-size: 30px; color: orange;">
+                {% if alert_flag %}
+                <script>alert("Email or Username already exists.")</script>
+                
+                {% else %}
+                <script>alert("Changes Saved")</script>
+                {% endif %}
+                <!-- {% for message in messages %}
             {% if message.tags == 'info' %}
             {{ message }}
             {% endif %}
-            {% endfor %}
-        </h4>
-    </div>
+            {% endfor %} -->
+            </h4>
+        </div>
         <div class="submit-box">
             <a><input type="submit" value="Save" class="save-changes"></a>
             <a class="cancel" href="{% url 'home' %}">Cancel</a>
         </div>
     </form>
-    
+
 </div>
 
 <!-- <label>Username:</label>
@@ -61,7 +67,7 @@
 
 
 <script>
-    
+
 </script>
 
 {% endblock %}
